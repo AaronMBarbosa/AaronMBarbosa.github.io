@@ -41,6 +41,12 @@
     transform: translateY(0%);
     transition: opacity 0ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
   }
+
+  #GM {
+    opacity: 30%;
+    display: block;margin-left: auto; margin-right: auto; width: 25%;
+  }
+  
   .card:hover > .card-content > .card-title > #GM {
     transform:scale(1.2);
     filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.377)) 
@@ -51,10 +57,6 @@
     transition: opacity 15ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
   }
 
-  #GM {
-    opacity: 30%;
-    display: block;margin-left: auto; margin-right: auto; width: 25%;
-  }
   .card:hover > .card-content > .card-subtitle2 > .card-subtitle-word2 {  
     opacity: 1;
     transform: translateY(0%);
