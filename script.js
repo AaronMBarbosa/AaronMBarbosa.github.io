@@ -29,4 +29,4 @@ const createWord2 = (text, index) => {
   }
 const addWord2 = (text, index) => subtitle2.appendChild(createWord2(text, index));
 const createSubtitle2 = text => text.split(" ").map(addWord2);
-createSubtitle2("I graduated in the spring of 2023 from Texas A&M University in College Station with a bachelors in Computer Engineering and a minor in math! I enjoy photography &#128247, taking care of my cat Koko &#128568, and trying local boba places &#129483! If you mouse over to the right, you can see what I am currently up to!");
+createSubtitle2("I graduated in the spring of 2023 from Texas A&M University in College Station with a bachelors in Computer Engineering and a minor in math! I enjoy film photography &#128247, taking care of my cat Koko &#128568, and trying local boba places &#129483! If you mouse over to the right, you can see what I am currently up to!");
