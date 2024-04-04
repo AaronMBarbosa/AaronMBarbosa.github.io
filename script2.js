@@ -3,7 +3,7 @@ const imagesContainer = document.createElement('div');
 imagesContainer.classList.add('images-container');
 container.appendChild(imagesContainer);
 
-const NUM_IMAGES = 70; // Total number of images in the folder
+const NUM_IMAGES = 200; // Total number of images in the folder
 const IMAGE_FOLDER_PATH = 'photos/'; // Path to your image folder
 
 let globalIndex = 0,
