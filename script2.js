@@ -1,35 +1,23 @@
-const images = document.getElementsByClassName("image");
+const imagesContainer = document.getElementById("images-container");
 
-let globalIndex = 0,
-    last = { x: 0, y: 0 };
-
-const activate = (image, x, y) => {
-  image.style.left = `${x}px`;
-  image.style.top = `${y}px`;
-  image.style.zIndex = globalIndex;
-
-  image.dataset.status = "active";
-
-  last = { x, y };
-}
-
-const distanceFromLast = (x, y) => {
-  return Math.hypot(x - last.x, y - last.y);
-}
-
-const handleOnMove = e => {
-  if(distanceFromLast(e.clientX, e.clientY) > (window.innerWidth / 20)) {
-    const lead = images[globalIndex % images.length],
-          tail = images[(globalIndex - 5) % images.length];
-
-    activate(lead, e.clientX, e.clientY);
-
-    if(tail) tail.dataset.status = "inactive";
-    
-    globalIndex++;
+// Function to generate image elements
+const generateImages = (count) => {
+  const fragment = document.createDocumentFragment();
+  for (let i = 1; i <= count; i++) {
+    const img = document.createElement("img");
+    img.className = "image";
+    img.dataset.index = i - 1;
+    img.dataset.status = "inactive";
+    img.src = `photos/ (${i}).jpg`; // Assuming your image files are named sequentially
+    fragment.appendChild(img);
   }
-}
+  return fragment;
+};
 
-window.onmousemove = e => handleOnMove(e);
+// Number of images you want to add
+const numberOfImages = 72; // Change this according to your requirement
 
-window.ontouchmove = e => handleOnMove(e.touches[0]);
+// Generate and append image elements
+imagesContainer.appendChild(generateImages(numberOfImages));
+
+// Rest of your JavaScript code goes here...
