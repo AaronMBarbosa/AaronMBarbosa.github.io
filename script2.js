@@ -22,6 +22,40 @@ const maxIndex = 201; // Change this to the maximum index of your images
 // Generate and append random image elements
 imagesContainer.appendChild(generateRandomImages(numberOfImages, maxIndex));
 
-// Rest of your JavaScript code goes here...
+// Array to keep track of image positions
+const imagePositions = [];
+
+// Function to track cursor movement and update image positions
+const handleOnMove = e => {
+  const images = document.getElementsByClassName("image");
+  for (let i = 0; i < images.length; i++) {
+    const image = images[i];
+    if (image.dataset.status === "active") {
+      continue; // Skip if image is already active
+    }
+    const position = {
+      x: e.clientX + Math.random() * 20 - 10,
+      y: e.clientY + Math.random() * 20 - 10
+    };
+    imagePositions.push(position);
+    if (imagePositions.length > 5) {
+      imagePositions.shift(); // Remove oldest position
+    }
+    updateImagePosition(image, i);
+  }
+};
+
+// Function to update image position based on stored positions
+const updateImagePosition = (image, index) => {
+  const position = imagePositions[Math.min(index, imagePositions.length - 1)];
+  image.style.left = `${position.x}px`;
+  image.style.top = `${position.y}px`;
+  image.style.zIndex = index;
+};
+
+// Track cursor movement
+window.onmousemove = e => handleOnMove(e);
+window.ontouchmove = e => handleOnMove(e.touches[0]);
+
 
 
