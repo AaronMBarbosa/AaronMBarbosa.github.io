@@ -1,61 +1,56 @@
-const imagesContainer = document.getElementById("images-container");
+const container = document.body; // You can change this to any container you want to append images to
+const imagesContainer = document.createElement('div');
+imagesContainer.classList.add('images-container');
+container.appendChild(imagesContainer);
 
-// Function to generate image elements with random indexes
-const generateRandomImages = (count, maxIndex) => {
-  const fragment = document.createDocumentFragment();
-  for (let i = 1; i < count; i++) {
-    const randomIndex = Math.floor(Math.random() * maxIndex) + 1; // Generate random index
-    const img = document.createElement("img");
-    img.className = "image";
-    img.dataset.index = randomIndex - 1; // Adjust index to start from 0
-    img.dataset.status = "inactive";
-    img.src = `photos/${randomIndex}.jpg`; // Assuming your image files are named sequentially
-    fragment.appendChild(img);
-  }
-  return fragment;
-};
+const NUM_IMAGES = 70; // Total number of images in the folder
+const IMAGE_FOLDER_PATH = 'photos/'; // Path to your image folder
 
-// Number of images you want to add
-const numberOfImages = 20; // Change this according to your requirement
-const maxIndex = 201; // Change this to the maximum index of your images
+let globalIndex = 0,
+    last = { x: 0, y: 0 };
 
-// Generate and append random image elements
-imagesContainer.appendChild(generateRandomImages(numberOfImages, maxIndex));
+const activate = (image, x, y) => {
+  image.style.left = `${x}px`;
+  image.style.top = `${y}px`;
+  image.style.zIndex = globalIndex;
 
-// Array to keep track of image positions
-const imagePositions = [];
+  image.dataset.status = "active";
 
-// Function to track cursor movement and update image positions
+  last = { x, y };
+}
+
+const distanceFromLast = (x, y) => {
+  return Math.hypot(x - last.x, y - last.y);
+}
+
 const handleOnMove = e => {
-  const images = document.getElementsByClassName("image");
-  for (let i = 0; i < images.length; i++) {
-    const image = images[i];
-    if (image.dataset.status === "active") {
-      continue; // Skip if image is already active
-    }
-    const position = {
-      x: e.clientX + Math.random() * 20 - 10,
-      y: e.clientY + Math.random() * 20 - 10
-    };
-    imagePositions.push(position);
-    if (imagePositions.length > 5) {
-      imagePositions.shift(); // Remove oldest position
-    }
-    updateImagePosition(image, i);
+  if (e.target !== homeLink && distanceFromLast(e.clientX, e.clientY) > (window.innerWidth / 5)) {
+    const lead = imagesContainer.querySelector('.active');
+    const tail = imagesContainer.querySelector('.inactive');
+
+    if (lead) lead.classList.remove('active');
+    if (tail) tail.classList.remove('inactive');
+
+    const image = imagesContainer.children[globalIndex % imagesContainer.children.length];
+    activate(image, e.clientX, e.clientY);
+    
+    globalIndex++;
   }
-};
+}
 
-// Function to update image position based on stored positions
-const updateImagePosition = (image, index) => {
-  const position = imagePositions[Math.min(index, imagePositions.length - 1)];
-  image.style.left = `${position.x}px`;
-  image.style.top = `${position.y}px`;
-  image.style.zIndex = index;
-};
-
-// Track cursor movement
 window.onmousemove = e => handleOnMove(e);
+
 window.ontouchmove = e => handleOnMove(e.touches[0]);
 
+// Dynamically load images
+for (let i = 0; i < NUM_IMAGES; i++) {
+  const image = new Image();
+  image.src = `${IMAGE_FOLDER_PATH}${i + 1}.jpg`;
+  image.classList.add('image');
+  imagesContainer.appendChild(image);
+}
 
-
+// Set up the home/source-link button
+const homeLink = document.getElementById('source-link');
+homeLink.style.position = 'fixed';
+homeLink.style.zIndex = '9999';
