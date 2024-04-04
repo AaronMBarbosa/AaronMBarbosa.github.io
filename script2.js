@@ -9,7 +9,7 @@ const generateRandomImages = (count, maxIndex) => {
     img.className = "image";
     img.dataset.index = randomIndex - 1; // Adjust index to start from 0
     img.dataset.status = "inactive";
-    img.src = `photos/ (${randomIndex}).jpg`; // Assuming your image files are named sequentially
+    img.src = `photos/ ${randomIndex}.jpg`; // Assuming your image files are named sequentially
     fragment.appendChild(img);
   }
   return fragment;
