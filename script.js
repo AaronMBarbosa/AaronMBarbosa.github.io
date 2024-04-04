@@ -15,7 +15,7 @@ const createWord = (text, index) => {
 
 const addWord = (text, index) => subtitle.appendChild(createWord(text, index));
 const createSubtitle = text => text.split(" ").map(addWord);
-createSubtitle("I will be working as a software developer for General Motors at their IT Innovation Center in Austin, Texas after I graduate in May of 2023. &#128516 &#128187 &#128663 &#128168 I am so in love with the area &#128525 and cannot wait to explore what the area and job have to offer!");
+createSubtitle("I am currently working as a software developer for General Motors at their IT Innovation Center in Austin, Texas after I graduated. &#128516 &#128187 &#128663 &#128168 So far I am enjoying living in the Austin area &#128525 and cannot wait to continue to challenge myself through my work!");
 const createWord2 = (text, index) => {
     const word = document.createElement("span");
     
