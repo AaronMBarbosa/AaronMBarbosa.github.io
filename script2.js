@@ -3,7 +3,7 @@ const imagesContainer = document.createElement('div');
 imagesContainer.classList.add('images-container');
 container.appendChild(imagesContainer);
 
-const NUM_IMAGES = 200; // Total number of images in the folder
+const NUM_IMAGES = 20; // Total number of images in the folder
 const IMAGE_FOLDER_PATH = 'photos/'; // Path to your image folder
 
 let globalIndex = 0,
@@ -24,7 +24,7 @@ const distanceFromLast = (x, y) => {
 }
 
 const handleOnMove = e => {
-  if (e.target !== homeLink && distanceFromLast(e.clientX, e.clientY) > (window.innerWidth / 5)) {
+  if (e.target !== homeLink && distanceFromLast(e.clientX, e.clientY) > (window.innerWidth / 15)) {
     const lead = imagesContainer.querySelector('.active');
     const tail = imagesContainer.querySelector('.inactive');
 
