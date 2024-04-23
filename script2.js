@@ -52,5 +52,5 @@ for (let i = 0; i < NUM_IMAGES; i++) {
 
 // Set up the home/source-link button
 const homeLink = document.getElementById('source-link');
-homeLink.style.position = 'fixed';
+homeLink.style.position = 'flex';
 homeLink.style.zIndex = '9999';
