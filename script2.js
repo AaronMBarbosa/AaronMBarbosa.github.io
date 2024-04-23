@@ -31,7 +31,7 @@ const handleOnMove = e => {
     if (lead) lead.classList.remove('active');
     if (tail) tail.classList.remove('inactive');
 
-    const image = imagesContainer.children[globalIndex % imagesContainer.children.length / 2];
+    const image = imagesContainer.children[globalIndex % imagesContainer.children.length];
     activate(image, e.clientX, e.clientY);
     
     globalIndex++;
