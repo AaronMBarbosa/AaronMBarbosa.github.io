@@ -42,10 +42,22 @@ window.onmousemove = e => handleOnMove(e);
 
 window.ontouchmove = e => handleOnMove(e.touches[0]);
 
+// Helper function to shuffle an array
+const shuffleArray = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+// Generate a shuffled array of image indices
+const imageIndices = Array.from({ length: NUM_IMAGES }, (_, i) => i + 1);
+shuffleArray(imageIndices);
+
 // Dynamically load images
-for (let i = 0; i < NUM_IMAGES; i++) {
+for (let i = 0; i < 20; i++) { // Only load the first 20 images after shuffling
   const image = new Image();
-  image.src = `${IMAGE_FOLDER_PATH}${i + 1}.jpg`;
+  image.src = `${IMAGE_FOLDER_PATH}${imageIndices[i]}.jpg`;
   image.classList.add('image');
   imagesContainer.appendChild(image);
 }
@@ -54,3 +66,4 @@ for (let i = 0; i < NUM_IMAGES; i++) {
 const homeLink = document.getElementById('source-link');
 homeLink.style.position = 'flex';
 homeLink.style.zIndex = '9999';
+
