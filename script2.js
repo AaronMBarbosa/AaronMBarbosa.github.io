@@ -54,16 +54,28 @@ const shuffleArray = (array) => {
 const imageIndices = Array.from({ length: NUM_IMAGES }, (_, i) => i + 1);
 shuffleArray(imageIndices);
 
+// Function to check if image exists
+const loadImage = (image, index) => {
+  image.src = `${IMAGE_FOLDER_PATH}${index}.jpg`;
+  image.onerror = () => {
+    // Try .JPG if .jpg fails
+    image.src = `${IMAGE_FOLDER_PATH}${index}.JPG`;
+    image.onerror = () => {
+      console.log(`Image ${index} not found with .jpg or .JPG extension.`);
+      image.remove(); // Remove the image element if neither extension exists
+    };
+  };
+}
+
 // Dynamically load images
 for (let i = 0; i < 20; i++) { // Only load the first 20 images after shuffling
   const image = new Image();
-  image.src = `${IMAGE_FOLDER_PATH}${imageIndices[i]}.jpg`;
   image.classList.add('image');
   imagesContainer.appendChild(image);
+  loadImage(image, imageIndices[i]);
 }
 
 // Set up the home/source-link button
 const homeLink = document.getElementById('source-link');
 homeLink.style.position = 'flex';
 homeLink.style.zIndex = '9999';
-
