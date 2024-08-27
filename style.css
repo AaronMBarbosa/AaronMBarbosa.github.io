@@ -1,0 +1,359 @@
+:root {
+    --border: rgb(3, 169, 244);
+    
+    --g1: rgb(98, 0, 234);
+    --g2: rgb(236, 64, 122);
+    --g3: rgb(253, 216, 53);
+  }
+  
+  body {
+    background-color: rgb(10, 10, 10);
+    display: grid;
+    height: 100vh;
+    margin: 0px;
+    padding: 0px;
+    place-items: center;
+  }
+  
+  .card {
+    aspect-ratio: 1 / 1.4;
+    border: 0.5vmin solid var(--border);
+    cursor: pointer;
+    position: relative;
+    width: 55vmin;
+  }
+  
+  .card:hover:before {
+    background-position: 100% 100%;
+    transform: scale(1.08, 1.03);
+  }
+  
+  .card:hover > .card-content {
+    background-position: -10% 0%;
+  }
+  
+  .card:hover > .card-icon {
+    color: white; 
+  }
+  
+  .card:hover > .card-content > .card-subtitle > .card-subtitle-word {  
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 0ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
+  }
+
+  #GM {
+    opacity: 30%;
+    display: block;margin-left: auto; margin-right: auto; width: 25%;
+  }
+  
+  #profile-picture {
+    width: 150px; /* Adjust the width as needed */
+    height: auto;
+    border-radius: 50%; /* Makes the image circular */
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+	.contact-info {
+		font-size: 3vmin;
+		color: white;
+		text-align: center;
+		margin-top: 2vmin;
+	}
+  
+  .card:hover > .card-content > .card-title > #GM {
+    transform:scale(1.2);
+    filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.377)) 
+        drop-shadow(0 2px 0 rgba(255, 255, 255, 0.377))
+        drop-shadow(-2px 0 0 rgba(255, 255, 255, 0.377)) 
+        drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.377));
+    opacity: 1;
+    transition: opacity 15ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
+  }
+  
+
+  .card:hover > .card-content > .card-subtitle2 > .card-subtitle-word2 {  
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 0ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
+  }
+  .card:before {
+    background: linear-gradient(
+      130deg, 
+      transparent 0% 33%, 
+      var(--g1) 66%, 
+      var(--g2) 83.5%, 
+      var(--g3) 100%
+    );
+    background-position: 0% 0%;
+    background-size: 300% 300%;
+    content: "";
+    height: 100%;
+    left: 0px;
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    transition: background-position 350ms ease, transform 350ms ease;
+    width: 100%;
+    z-index: 1;
+  }
+  
+  .card-content {
+    background-image: radial-gradient(
+      rgba(255, 255, 255, 0.2) 8%, 
+      transparent 8%
+    );
+    background-position: 0% 0%;
+    background-size: 5vmin 5vmin;
+    height: calc(100% - 10vmin);
+    padding: 5vmin;
+    position: relative;
+    transition: background-position 350ms ease;
+    width: calc(100% - 10vmin);
+    z-index: 2;
+  }
+  
+  .card-title,
+  .card-title2,
+  .card-subtitle,
+  .card-subtitle2 {
+    color: white;
+    font-family: "Anek Latin", sans-serif;
+    font-weight: 400;
+    margin: 0px;
+  }
+  
+  .card-title {
+    font-size: 6vmin;
+  }
+  .card-title2 {
+    font-size: 4vmin;
+  }
+
+  
+  .card-subtitle {
+    font-size: 3vmin;
+    margin-top: 2vmin;
+  }
+  .card-subtitle2 {
+    font-size: 3vmin;
+    margin-top: 2vmin;
+  }
+  
+  .card-subtitle-word {
+    display: inline-block;
+    margin: 0vmin 0.3vmin;
+    opacity: 0;
+    position: relative;  
+    transform: translateY(40%);
+    transition: none;
+  }
+
+  .card-subtitle-word2 {
+    display: inline-block;
+    margin: 0vmin 0.3vmin;
+    opacity: 0;
+    position: relative;  
+    transform: translateY(40%);
+    transition: none;
+  }
+  
+  .card-icon {
+    bottom: 0px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 7vmin;
+    left: 0px;
+    margin: 5vmin;
+    position: absolute;
+    transition: color 250ms ease;
+    z-index: 2;
+  }
+  .grid-container {
+    display: inline-grid;
+    grid-template-columns: auto auto auto;
+    color: white;
+  }
+
+
+  /* -- YouTube Link Styles -- */
+
+#source-link {
+    top: 60px;
+  }
+  
+  #source-link > i {
+    color: rgb(94, 106, 210);
+  }
+  
+  #yt-link {  
+    top: 10px;
+  }
+  
+  #yt-link > i {
+    color: rgb(239, 83, 80);
+  }
+  
+  .meta-link {
+    align-items: center;
+    backdrop-filter: blur(3px);
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    cursor: pointer;  
+    display: inline-flex;
+    gap: 5px;
+    left: 10px;
+    padding: 10px 20px;
+    position: fixed;
+    text-decoration: none;
+    transition: background-color 350ms, border-color 350ms;
+    z-index: 10000;
+  }
+  
+  .meta-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .meta-link > i, .meta-link > span {
+    height: 20px;
+    line-height: 20px;
+  }
+  
+  .meta-link > span {
+    color: white;
+    font-family: "Anek Latin", sans-serif;
+    transition: color 600ms;
+  }
+/* Contact Card Specific Styling */
+.grid-item2 {
+	position: relative;
+	right: -30px;
+}
+.contact-card {
+    position: relative;
+	left: 5vmin;
+	top: 15vmin;
+    width: 45vmin; /* Adjust the width as needed */
+    height: 45vmin; /* Adjust the height as needed */
+    background: inherit;
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+	right: -2vmin;
+	position: relative;
+	transition: background-color 350ms, border-color 350ms;
+
+}
+.contact-card:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+/* Frosted Glass Effect */
+.contact-card:before {
+    position: absolute;
+    content: '';
+    background: gray;
+    left: -25px;
+    right: 0;
+    top: -25px;
+    bottom: 0;
+    box-shadow: inset 0 0 0 2000px rgba(255, 255, 255, 0.1);
+    filter: blur(10px);
+    border-radius: 15px;
+    z-index: 1;
+	background: linear-gradient(
+      120deg, 
+      transparent 10% 33%, 
+      var(--g1) 15%, 
+      var(--g2) 86%, 
+      var(--g3) 100%
+    );
+    background-position: 0% 0%;
+    background-size: 300% 300%;
+    content: "";
+    height: 100%;
+    left: 0px;
+    pointer-events: none;
+    position: absolute;
+    top: 0px;
+    transition: background-position 350ms ease, transform 350ms ease;
+    width: 100%;
+    z-index: 1;
+	
+}
+
+
+
+
+/* Content Styling */
+.contact-card .content {
+    position: relative;
+    z-index: 2; /* Ensure content appears above the frosted effect */
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+/* Profile Picture Styling */
+#profile-picture {
+    width: 100px; /* Adjust the size as needed */
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+/* Contact Information Styling */
+.contact-info {
+    font-size: 1.2em;
+    margin-top: 20px;
+    line-height: 1.5em;
+}
+
+.card-subtitle3 {
+    font-size: 3vmin; /* Match the size with other subtitles */
+    margin-top: 2vmin;
+    color: white;
+    font-family: "Anek Latin", sans-serif; /* Ensure the font family is the same */
+    font-weight: 400; /* Match the font weight */
+}
+
+.card-subtitle-word3 {
+    display: inline-block;
+    margin: 0vmin 0.3vmin;
+    opacity: 0;
+    position: relative;  
+    transform: translateY(40%);
+    transition: none;
+}
+
+.contact-card:hover .card-subtitle3 .card-subtitle-word3 {  
+    opacity: 1;
+    transform: translateY(0%);
+    transition: opacity 0ms, transform 200ms cubic-bezier(.90, .06, .15, .90);
+}
+
+#profile-picture {
+    width: 10vmin; /* Ensure it scales with the viewport */
+    height: auto;
+    border-radius: 50%;
+    margin-bottom: 2vmin;
+
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    transition: transform 200ms cubic-bezier(.90, .06, .15, .90), opacity 15ms;
+}
+
+.contact-card:hover #profile-picture {
+    transform: scale(1.4);
+    filter: drop-shadow(2px 0 0 rgba(255, 255, 255, 0.377)) 
+            drop-shadow(0 2px 0 rgba(255, 255, 255, 0.377))
+            drop-shadow(-2px 0 0 rgba(255, 255, 255, 0.377)) 
+            drop-shadow(0 -2px 0 rgba(255, 255, 255, 0.377));
+    opacity: 1;
+}
