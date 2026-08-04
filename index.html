@@ -1,53 +1,151 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-<title>Welcome to my site!</title>
-<link rel="stylesheet" type="text/css" href="style.css" title = "title">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Aaron Barbosa is a software engineer in the Austin area building dependable web applications with C#, .NET, SQL, and JavaScript.">
+  <meta name="theme-color" content="#09090b">
+  <title>Aaron Barbosa — Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
-
 <body>
-    <div class = "grid-container">
-        <div class = "grid-item">
-            <div class="card">
-                <div class="card-content">
-                  <h3 class="card-title">Howdy! My name is Aaron. &#128317</h3>
-                  <h4 class="card-subtitle2"></h4>
-                </div>
-              </div>
-        </div>
-        <div class="grid-item">
-                <div class="card">
-                    <div class="card-content">
-                      <h3 class="card-title">
-                        <img id="GM" src = "GM.png" alt="GM logo">
-                      </h3>
-                      <h4 class="card-subtitle"></h4>
-                    </div>
-                  </div>
-            </div>
-			<div class="grid-item2">
-				<div class="card contact-card">
-					<div class="content">
-						<h3 class="card-title">
-							<img id="profile-picture" src="your-picture.jpg" alt="Your Name">
-						</h3>
-						<h5 class="card-title2">Contact Me! &#9749</h5>
-						<h4 class="card-subtitle3"></h4>
-						</p>
-					</div>
-				</div>
-			</div>
-        </div>
-    </div>
-    <a id="source-link" class="meta-link" href="https://www.linkedin.com/in/aaron-barbosa-1268311a4/" target="_blank">
-        <i class="fa-solid fa-link"></i>
-        <span class="roboto-mono">Linkedin</span>
-      </a>
-      <a id="yt-link" class="meta-link" href="photo.html" target="_self">
-        <i class="fa-solid fa-link"></i>
-        <span class="roboto-mono">Aaron's Photos</span>
-      </a>
-      <script src='https://codepen.io/Hyperplexed/pen/xxYJYjM/54407644e24173ad6019b766443bf2a6.js'></script><script  src="./script.js"></script>
-</body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
+  <div class="site-shell">
+    <header class="site-header" aria-label="Primary navigation">
+      <a class="brand" href="index.html" aria-label="Aaron Barbosa home">
+        <span class="brand-mark">AB</span>
+        <span class="brand-name">Aaron Barbosa</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main links">
+        <a href="#work">Work</a>
+        <a href="#about">About</a>
+        <a href="photo.html">Photos</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main id="main-content" class="bento-grid">
+      <section class="card hero-card reveal" aria-labelledby="hero-title">
+        <div class="card-noise" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="status-dot" aria-hidden="true"></span> Software engineer · Austin area</p>
+          <h1 id="hero-title">Howdy, I’m Aaron.<br><span>I build useful software for complicated systems.</span></h1>
+          <p class="hero-summary">
+            I’m a full-stack software engineer focused on dependable internal tools, thoughtful user experiences, and making mature systems feel fast and modern again.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="mailto:aambar1101@icloud.com">Email me <span aria-hidden="true">↗</span></a>
+            <a class="button button-secondary" href="https://www.linkedin.com/in/aaron-barbosa-1268311a4/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="hero-code" aria-hidden="true">
+          <span>01</span>
+          <code>build()</code>
+          <span>with care</span>
+        </div>
+      </section>
+
+      <section class="card portrait-card reveal" id="about" aria-label="Portrait of Aaron Barbosa">
+        <div class="portrait-halo" aria-hidden="true"></div>
+        <img src="your-picture.jpg" alt="Aaron Barbosa" width="780" height="800">
+        <div class="portrait-caption">
+          <span>Based near Austin, TX</span>
+          <span aria-hidden="true">↘</span>
+        </div>
+      </section>
+
+      <section class="card work-card reveal" id="work" aria-labelledby="current-work-title">
+        <div class="section-heading">
+          <p class="eyebrow">Current work</p>
+          <span class="card-index">01</span>
+        </div>
+        <h2 id="current-work-title">Modernizing insurance software at Service Insurance.</h2>
+        <p>
+          I own and improve an ASP.NET MVC application used to access policy, claims, and insured data—working across C#, SQL Server, JavaScript, performance, reliability, and user experience.
+        </p>
+        <div class="tag-list" aria-label="Current technologies">
+          <span>C#</span><span>.NET</span><span>SQL Server</span><span>JavaScript</span><span>Azure DevOps</span>
+        </div>
+      </section>
+
+      <section class="card focus-card reveal" aria-labelledby="focus-title">
+        <div class="section-heading">
+          <p class="eyebrow">How I work</p>
+          <span class="card-index">02</span>
+        </div>
+        <h2 id="focus-title">Practical engineering, not theater.</h2>
+        <ul class="focus-list">
+          <li><span>01</span> Make slow workflows feel immediate.</li>
+          <li><span>02</span> Simplify before adding complexity.</li>
+          <li><span>03</span> Leave systems easier to maintain.</li>
+        </ul>
+      </section>
+
+      <section class="card history-card reveal" aria-labelledby="history-title">
+        <div class="history-logo-wrap">
+          <img src="GM.png" alt="General Motors logo" class="gm-logo">
+        </div>
+        <div>
+          <p class="eyebrow">Previously</p>
+          <h2 id="history-title">General Motors</h2>
+          <p>Built and modernized enterprise applications with Angular, C#, .NET, automated testing, and CI/CD at GM’s Austin IT Innovation Center.</p>
+        </div>
+      </section>
+
+      <section class="card education-card reveal" aria-labelledby="education-title">
+        <div class="section-heading">
+          <p class="eyebrow">Education</p>
+          <span class="card-index">03</span>
+        </div>
+        <h2 id="education-title">Texas A&amp;M University</h2>
+        <p>B.S. Computer Engineering<br>Minor in Mathematics · 2023</p>
+        <div class="education-mark" aria-hidden="true">A&amp;M</div>
+      </section>
+
+      <a class="card photo-card reveal" href="photo.html" aria-label="Open Aaron's photography page">
+        <div class="photo-overlay"></div>
+        <div class="photo-card-copy">
+          <p class="eyebrow">Away from the keyboard</p>
+          <h2>Film photography</h2>
+          <p>Street scenes, friends, and the imperfect moments worth keeping.</p>
+        </div>
+        <span class="round-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <section class="card interests-card reveal" aria-labelledby="interests-title">
+        <div class="section-heading">
+          <p class="eyebrow">Also into</p>
+          <span class="card-index">04</span>
+        </div>
+        <h2 id="interests-title" class="sr-only">Interests</h2>
+        <div class="ticker" aria-label="Pickleball, vinyl records, film photography, vintage finds, and coffee">
+          <span>Pickleball</span><span>Vinyl</span><span>35mm film</span><span>Vintage finds</span><span>Coffee</span>
+        </div>
+      </section>
+
+      <section class="card contact-card reveal" id="contact" aria-labelledby="contact-title">
+        <div>
+          <p class="eyebrow">Let’s connect</p>
+          <h2 id="contact-title">Have a role, project, or good coffee recommendation?</h2>
+        </div>
+        <div class="contact-links">
+          <a href="mailto:aambar1101@icloud.com">aambar1101@icloud.com <span aria-hidden="true">↗</span></a>
+          <a href="https://github.com/AaronMBarbosa" target="_blank" rel="noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+          <a href="https://www.linkedin.com/in/aaron-barbosa-1268311a4/" target="_blank" rel="noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p>Designed and built by Aaron Barbosa.</p>
+      <p>© <span id="year">2026</span></p>
+    </footer>
+  </div>
+</body>
 </html>

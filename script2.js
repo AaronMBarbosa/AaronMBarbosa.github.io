@@ -1,81 +1,132 @@
-const container = document.body; // You can change this to any container you want to append images to
-const imagesContainer = document.createElement('div');
-imagesContainer.classList.add('images-container');
-container.appendChild(imagesContainer);
+const TOTAL_IMAGES = 172;
+const POOL_SIZE = 16;
+const MIN_DISTANCE = Math.max(58, window.innerWidth / 16);
 
-const NUM_IMAGES = 170; // Total number of images in the folder
-const IMAGE_FOLDER_PATH = 'photos/'; // Path to your image folder
+const stage = document.querySelector('.gallery-stage');
+const imagesContainer = document.querySelector('.images-container');
+const intro = document.querySelector('#gallery-intro');
+const startButton = document.querySelector('.start-button');
+const counter = document.querySelector('#counter-current');
 
-let globalIndex = 0,
-    last = { x: 0, y: 0 };
+let imagePool = [];
+let globalIndex = 0;
+let lastPoint = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+let hasStarted = false;
+let isPointerDown = false;
 
-const activate = (image, x, y) => {
+const shuffledIndices = Array.from({ length: TOTAL_IMAGES }, (_, index) => index + 1)
+  .sort(() => Math.random() - 0.5);
+
+function tryLoadImage(image, index) {
+  return new Promise((resolve) => {
+    const lowerCasePath = `photos/${index}.jpg`;
+    const upperCasePath = `photos/${index}.JPG`;
+
+    image.onload = () => resolve(true);
+    image.onerror = () => {
+      image.onerror = () => resolve(false);
+      image.src = upperCasePath;
+    };
+    image.src = lowerCasePath;
+  });
+}
+
+async function buildImagePool() {
+  for (const index of shuffledIndices) {
+    if (imagePool.length >= POOL_SIZE) break;
+
+    const image = new Image();
+    image.className = 'trail-image';
+    image.alt = '';
+    image.decoding = 'async';
+    image.loading = 'eager';
+    image.style.setProperty('--rotation', `${(Math.random() * 8 - 4).toFixed(2)}deg`);
+
+    const loaded = await tryLoadImage(image, index);
+    if (!loaded) continue;
+
+    imagesContainer.appendChild(image);
+    imagePool.push(image);
+  }
+}
+
+function distanceFromLast(x, y) {
+  return Math.hypot(x - lastPoint.x, y - lastPoint.y);
+}
+
+function activateImage(x, y) {
+  if (!imagePool.length) return;
+
+  const image = imagePool[globalIndex % imagePool.length];
+  const previous = imagePool[(globalIndex - 7 + imagePool.length) % imagePool.length];
+
+  image.classList.remove('is-fading');
   image.style.left = `${x}px`;
   image.style.top = `${y}px`;
-  image.style.zIndex = globalIndex;
+  image.style.zIndex = String(globalIndex + 1);
+  image.style.setProperty('--rotation', `${(Math.random() * 8 - 4).toFixed(2)}deg`);
 
-  image.dataset.status = "active";
+  requestAnimationFrame(() => image.classList.add('is-active'));
 
-  last = { x, y };
-}
-
-const distanceFromLast = (x, y) => {
-  return Math.hypot(x - last.x, y - last.y);
-}
-
-const handleOnMove = e => {
-  if (e.target !== homeLink && distanceFromLast(e.clientX, e.clientY) > (window.innerWidth / 15)) {
-    const lead = imagesContainer.querySelector('.active');
-    const tail = imagesContainer.querySelector('.inactive');
-
-    if (lead) lead.classList.remove('active');
-    if (tail) tail.classList.remove('inactive');
-
-    const image = imagesContainer.children[globalIndex % imagesContainer.children.length];
-    activate(image, e.clientX, e.clientY);
-    
-    globalIndex++;
+  if (globalIndex > 6 && previous !== image) {
+    previous.classList.add('is-fading');
+    previous.classList.remove('is-active');
   }
+
+  globalIndex += 1;
+  counter.textContent = String(globalIndex).padStart(2, '0');
+  lastPoint = { x, y };
 }
 
-window.onmousemove = e => handleOnMove(e);
-
-window.ontouchmove = e => handleOnMove(e.touches[0]);
-
-// Helper function to shuffle an array
-const shuffleArray = (array) => {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
+function beginExperience(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+  if (!hasStarted) {
+    hasStarted = true;
+    intro.classList.add('is-hidden');
   }
+
+  const offsets = [
+    [-150, -80], [110, -120], [-60, 80], [170, 65]
+  ];
+
+  offsets.forEach(([offsetX, offsetY], index) => {
+    window.setTimeout(() => {
+      const safeX = Math.min(window.innerWidth - 70, Math.max(70, x + offsetX));
+      const safeY = Math.min(window.innerHeight - 70, Math.max(70, y + offsetY));
+      activateImage(safeX, safeY);
+    }, index * 85);
+  });
 }
 
-// Generate a shuffled array of image indices
-const imageIndices = Array.from({ length: NUM_IMAGES }, (_, i) => i + 1);
-shuffleArray(imageIndices);
+function handlePointerMove(event) {
+  if (!hasStarted || (!isPointerDown && event.pointerType === 'touch')) return;
+  if (event.target.closest('a, button')) return;
 
-// Function to check if image exists
-const loadImage = (image, index) => {
-  image.src = `${IMAGE_FOLDER_PATH}${index}.jpg`;
-  image.onerror = () => {
-    // Try .JPG if .jpg fails
-    image.src = `${IMAGE_FOLDER_PATH}${index}.JPG`;
-    image.onerror = () => {
-      console.log(`Image ${index} not found with .jpg or .JPG extension.`);
-      image.remove(); // Remove the image element if neither extension exists
-    };
-  };
+  const { clientX: x, clientY: y } = event;
+  if (distanceFromLast(x, y) >= MIN_DISTANCE) activateImage(x, y);
 }
 
-// Dynamically load images
-for (let i = 0; i < 20; i++) { // Only load the first 20 images after shuffling
-  const image = new Image();
-  image.classList.add('image');
-  imagesContainer.appendChild(image);
-  loadImage(image, imageIndices[i]);
-}
+startButton.addEventListener('click', () => beginExperience());
 
-// Set up the home/source-link button
-const homeLink = document.getElementById('source-link');
-homeLink.style.position = 'flex';
-homeLink.style.zIndex = '9999';
+stage.addEventListener('pointerdown', (event) => {
+  if (event.target.closest('a, button')) return;
+  isPointerDown = true;
+  stage.setPointerCapture?.(event.pointerId);
+
+  if (!hasStarted) beginExperience(event.clientX, event.clientY);
+  else activateImage(event.clientX, event.clientY);
+});
+
+stage.addEventListener('pointermove', handlePointerMove);
+stage.addEventListener('pointerup', () => { isPointerDown = false; });
+stage.addEventListener('pointercancel', () => { isPointerDown = false; });
+
+window.addEventListener('resize', () => {
+  lastPoint = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+});
+
+buildImagePool().then(() => {
+  if (!imagePool.length) {
+    intro.querySelector('p:last-of-type').textContent = 'The photo archive could not be loaded. Please refresh and try again.';
+    startButton.disabled = true;
+  }
+});

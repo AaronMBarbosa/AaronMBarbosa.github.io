@@ -1,21 +1,34 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Aaron's Photos</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A playful interactive collection of film photography by Aaron Barbosa.">
+  <meta name="theme-color" content="#09090b">
+  <title>Photos — Aaron Barbosa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400&family=Rubik&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style2.css">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style2.css">
+  <script src="script2.js" defer></script>
 </head>
 <body>
-<!-- partial:index.partial.html -->
-<a id="source-link" class="meta-link" href="index.html" target="_self">
-  <i class="fa-solid fa-link"></i>
-  <span>Home</span>
-</a>
-<!-- partial -->
-<script src="./script2.js"></script>
+  <header class="gallery-header">
+    <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Aaron Barbosa</a>
+    <p>35mm archive · move, drag, or tap</p>
+  </header>
+
+  <main class="gallery-stage" aria-label="Interactive photo gallery">
+    <div class="gallery-intro" id="gallery-intro">
+      <p class="eyebrow">Selected frames</p>
+      <h1>Photos that found me.</h1>
+      <p>Move your cursor—or drag a finger—to leave a trail through the archive.</p>
+      <button class="start-button" type="button">Start exploring <span aria-hidden="true">↘</span></button>
+    </div>
+    <div class="images-container" aria-hidden="true"></div>
+    <div class="counter" aria-live="polite"><span id="counter-current">00</span> / ∞</div>
+  </main>
+
+  <noscript>This interactive gallery needs JavaScript enabled.</noscript>
 </body>
 </html>
-
