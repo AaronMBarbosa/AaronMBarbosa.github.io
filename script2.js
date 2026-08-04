@@ -1,11 +1,13 @@
 const TOTAL_IMAGES = 172;
+const UPPERCASE_PHOTO_INDICES = new Set([100, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 114]);
+const photoPath = (index) => `photos/${index}.${UPPERCASE_PHOTO_INDICES.has(index) ? 'JPG' : 'jpg'}`;
 const POOL_SIZE = 16;
 const MIN_DISTANCE = Math.max(58, window.innerWidth / 16);
 
 const stage = document.querySelector('.gallery-stage');
 const imagesContainer = document.querySelector('.images-container');
 const intro = document.querySelector('#gallery-intro');
-const startButton = document.querySelector('.start-button');
+const countdown = document.querySelector('#intro-countdown');
 const counter = document.querySelector('#counter-current');
 
 let imagePool = [];
@@ -13,21 +15,16 @@ let globalIndex = 0;
 let lastPoint = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let hasStarted = false;
 let isPointerDown = false;
+let autoStartTimer = null;
 
 const shuffledIndices = Array.from({ length: TOTAL_IMAGES }, (_, index) => index + 1)
   .sort(() => Math.random() - 0.5);
 
 function tryLoadImage(image, index) {
   return new Promise((resolve) => {
-    const lowerCasePath = `photos/${index}.jpg`;
-    const upperCasePath = `photos/${index}.JPG`;
-
     image.onload = () => resolve(true);
-    image.onerror = () => {
-      image.onerror = () => resolve(false);
-      image.src = upperCasePath;
-    };
-    image.src = lowerCasePath;
+    image.onerror = () => resolve(false);
+    image.src = photoPath(index);
   });
 }
 
@@ -79,6 +76,11 @@ function activateImage(x, y) {
 }
 
 function beginExperience(x = window.innerWidth / 2, y = window.innerHeight / 2) {
+  if (autoStartTimer) {
+    window.clearInterval(autoStartTimer);
+    autoStartTimer = null;
+  }
+
   if (!hasStarted) {
     hasStarted = true;
     intro.classList.add('is-hidden');
@@ -105,8 +107,6 @@ function handlePointerMove(event) {
   if (distanceFromLast(x, y) >= MIN_DISTANCE) activateImage(x, y);
 }
 
-startButton.addEventListener('click', () => beginExperience());
-
 stage.addEventListener('pointerdown', (event) => {
   if (event.target.closest('a, button')) return;
   isPointerDown = true;
@@ -127,6 +127,22 @@ window.addEventListener('resize', () => {
 buildImagePool().then(() => {
   if (!imagePool.length) {
     intro.querySelector('p:last-of-type').textContent = 'The photo archive could not be loaded. Please refresh and try again.';
-    startButton.disabled = true;
+    countdown.textContent = '--';
+    return;
   }
+
+  const INTRO_SECONDS = 4;
+  const startedAt = Date.now();
+  countdown.textContent = String(INTRO_SECONDS).padStart(2, '0');
+
+  autoStartTimer = window.setInterval(() => {
+    const elapsed = (Date.now() - startedAt) / 1000;
+    const remaining = Math.max(0, Math.ceil(INTRO_SECONDS - elapsed));
+    countdown.textContent = String(remaining).padStart(2, '0');
+
+    if (remaining <= 0) {
+      window.clearInterval(autoStartTimer);
+      beginExperience();
+    }
+  }, 150);
 });

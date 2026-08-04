@@ -23,7 +23,10 @@
       <p class="eyebrow">Selected frames</p>
       <h1>Photos that found me.</h1>
       <p>Move your cursor—or drag a finger—to leave a trail through the archive.</p>
-      <button class="start-button" type="button">Start exploring <span aria-hidden="true">↘</span></button>
+      <div class="intro-timer" aria-live="polite" aria-label="Interactive gallery starts automatically">
+        <span class="timer-bar" aria-hidden="true"><i></i></span>
+        <strong id="intro-countdown">04</strong>
+      </div>
     </div>
     <div class="images-container" aria-hidden="true"></div>
     <div class="counter" aria-live="polite"><span id="counter-current">00</span> / ∞</div>
