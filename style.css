@@ -11,6 +11,9 @@
   --pink: #ff72b6;
   --cyan: #63d9ff;
   --radius: 26px;
+  --burst-a: rgba(157, 123, 255, 0.48);
+  --burst-b: rgba(99, 217, 255, 0.42);
+  --burst-c: rgba(255, 114, 182, 0.44);
   --font-sans: "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-mono: "Space Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 }
@@ -143,23 +146,95 @@ a {
 .card {
   --mouse-x: 50%;
   --mouse-y: 50%;
+  --ratio-x: 50%;
+  --ratio-y: 50%;
   position: relative;
   min-width: 0;
   overflow: hidden;
+  isolation: isolate;
   padding: clamp(1.45rem, 2.8vw, 2.5rem);
   background:
-    radial-gradient(500px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.075), transparent 42%),
+    radial-gradient(620px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.08), transparent 38%),
     var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--radius);
   box-shadow: 0 24px 80px rgba(0, 0, 0, 0.16);
   backdrop-filter: blur(18px);
-  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease;
+  transition: transform 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+}
+
+.card::before,
+.card::after {
+  position: absolute;
+  inset: -10%;
+  z-index: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0;
+}
+
+.card::before {
+  background:
+    linear-gradient(116deg,
+      transparent 8%,
+      rgba(255,255,255,0.06) 18%,
+      var(--burst-c) 30%,
+      var(--burst-a) 48%,
+      var(--burst-b) 66%,
+      rgba(255,255,255,0.10) 74%,
+      transparent 86%);
+  background-size: 185% 185%;
+  background-position: calc(100% - var(--ratio-x)) calc(50% + (var(--ratio-y) - 50%) * 0.08);
+  filter: blur(22px) saturate(1.25);
+  transform: translate3d(6%, 0, 0) scale(1.02) rotate(-3deg);
+  mix-blend-mode: screen;
+  transition:
+    opacity 220ms ease,
+    transform 520ms cubic-bezier(.2,.8,.2,1),
+    background-position 560ms cubic-bezier(.2,.8,.2,1),
+    filter 420ms ease;
+}
+
+.card::after {
+  background:
+    radial-gradient(620px circle at var(--mouse-x) var(--mouse-y), rgba(255,255,255,0.08), transparent 34%),
+    radial-gradient(420px circle at calc(var(--mouse-x) + 10%) calc(var(--mouse-y) - 10%), color-mix(in srgb, var(--burst-a) 36%, transparent), transparent 38%),
+    radial-gradient(360px circle at calc(var(--mouse-x) - 16%) calc(var(--mouse-y) + 16%), color-mix(in srgb, var(--burst-b) 34%, transparent), transparent 34%),
+    radial-gradient(320px circle at calc(var(--mouse-x) + 16%) calc(var(--mouse-y) + 18%), color-mix(in srgb, var(--burst-c) 30%, transparent), transparent 32%);
+  filter: blur(22px);
+  transform: scale(0.96);
+  mix-blend-mode: screen;
+  transition: opacity 220ms ease, transform 500ms cubic-bezier(.2,.8,.2,1), filter 420ms ease;
+}
+
+.card > * {
+  position: relative;
+  z-index: 2;
 }
 
 .card:hover {
-  border-color: var(--line-hover);
-  transform: translateY(-3px);
+  border-color: rgba(255,255,255,0.34);
+  transform: translateY(-5px) scale(1.006);
+  box-shadow: 0 34px 100px rgba(0, 0, 0, 0.24), 0 0 30px rgba(255,255,255,0.03);
+}
+
+.card:hover::before,
+.card:hover::after,
+.card:focus-visible::before,
+.card:focus-visible::after {
+  opacity: 1;
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  transform: translate3d(0, 0, 0) scale(1.06) rotate(2deg);
+  filter: blur(18px) saturate(1.46);
+}
+
+.card:hover::after,
+.card:focus-visible::after {
+  transform: scale(1.02);
+  filter: blur(18px) saturate(1.28);
 }
 
 .card:focus-visible {
@@ -222,6 +297,9 @@ h2 {
 }
 
 .hero-card {
+  --burst-a: rgba(157, 123, 255, 0.56);
+  --burst-b: rgba(99, 217, 255, 0.42);
+  --burst-c: rgba(255, 114, 182, 0.36);
   grid-column: span 8;
   min-height: 560px;
   display: flex;
@@ -326,6 +404,9 @@ h2 {
 }
 
 .portrait-card {
+  --burst-a: rgba(99, 217, 255, 0.44);
+  --burst-b: rgba(255, 114, 182, 0.36);
+  --burst-c: rgba(157, 123, 255, 0.32);
   grid-column: span 4;
   min-height: 560px;
   padding: 0;
@@ -349,12 +430,12 @@ h2 {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 22%;
+  object-position: 50% 50%;
   filter: saturate(0.92) contrast(1.03);
   transition: transform 350ms cubic-bezier(.2,.8,.2,1), filter 350ms ease;
 }
 
-.portrait-card:hover img {
+ .portrait-card:hover img {
   transform: scale(1.03);
   filter: saturate(1) contrast(1.05);
 }
@@ -419,6 +500,9 @@ h2 {
 }
 
 .work-card {
+  --burst-a: rgba(255, 114, 182, 0.30);
+  --burst-b: rgba(99, 217, 255, 0.34);
+  --burst-c: rgba(157, 123, 255, 0.34);
   grid-column: span 7;
   min-height: 390px;
   background:
@@ -530,6 +614,9 @@ h2 {
 }
 
 .focus-card {
+  --burst-a: rgba(157, 123, 255, 0.46);
+  --burst-b: rgba(99, 217, 255, 0.30);
+  --burst-c: rgba(255, 114, 182, 0.28);
   grid-column: span 5;
   min-height: 390px;
 }
@@ -559,6 +646,9 @@ h2 {
 }
 
 .history-card {
+  --burst-a: rgba(70, 133, 255, 0.44);
+  --burst-b: rgba(99, 217, 255, 0.32);
+  --burst-c: rgba(255, 255, 255, 0.16);
   grid-column: span 5;
   min-height: 420px;
   display: flex;
@@ -574,6 +664,9 @@ h2 {
 }
 
 .education-card {
+  --burst-a: rgba(255, 255, 255, 0.20);
+  --burst-b: rgba(157, 123, 255, 0.28);
+  --burst-c: rgba(215, 255, 99, 0.24);
   grid-column: span 3;
   background:
     linear-gradient(160deg, rgba(255,255,255,0.05), transparent 48%),
@@ -581,6 +674,9 @@ h2 {
 }
 
 .photo-card {
+  --burst-a: rgba(255, 114, 182, 0.48);
+  --burst-b: rgba(157, 123, 255, 0.34);
+  --burst-c: rgba(99, 217, 255, 0.28);
   grid-column: span 4;
 }
 
@@ -647,9 +743,11 @@ h2 {
   flex-direction: column;
   justify-content: flex-end;
   text-decoration: none;
-  background-image: url("photos/100.JPG"), linear-gradient(135deg, #38383e, #111);
+  --photo-card-image: url("photos/100.JPG");
+  --photo-card-position: center;
+  background-image: var(--photo-card-image), linear-gradient(135deg, #38383e, #111);
   background-size: cover;
-  background-position: center;
+  background-position: var(--photo-card-position);
 }
 
 .photo-card::before {
@@ -707,6 +805,9 @@ h2 {
 }
 
 .interests-card {
+  --burst-a: rgba(157, 123, 255, 0.38);
+  --burst-b: rgba(99, 217, 255, 0.28);
+  --burst-c: rgba(255, 114, 182, 0.30);
   grid-column: span 12;
   min-height: 180px;
   display: flex;
@@ -737,6 +838,9 @@ h2 {
 }
 
 .contact-card {
+  --burst-a: rgba(157, 123, 255, 0.46);
+  --burst-b: rgba(99, 217, 255, 0.32);
+  --burst-c: rgba(255, 114, 182, 0.34);
   grid-column: span 12;
   min-height: 360px;
   display: grid;
@@ -810,20 +914,14 @@ h2 {
   }
 
   .portrait-card,
-  .focus-card {
-    grid-column: span 6;
-  }
-
+  .focus-card,
   .history-card {
     grid-column: span 6;
   }
 
-  .education-card {
-    grid-column: span 3;
-  }
-
+  .education-card,
   .photo-card {
-    grid-column: span 3;
+    grid-column: span 6;
   }
 
   .hero-card {
@@ -960,6 +1058,14 @@ h2 {
   .portrait-card {
     min-height: 430px;
   }
+
+  .mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .contact-card h2 {
+    font-size: clamp(2.2rem, 11vw, 3rem);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -989,8 +1095,3 @@ h2 {
   overflow-wrap: anywhere;
 }
 
-@media (max-width: 460px) {
-  .contact-card h2 {
-    font-size: clamp(2.2rem, 11vw, 3rem);
-  }
-}
