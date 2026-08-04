@@ -329,24 +329,33 @@ h2 {
   grid-column: span 4;
   min-height: 560px;
   padding: 0;
+  isolation: isolate;
   background:
-    radial-gradient(circle at 50% 35%, rgba(99,217,255,0.16), transparent 35%),
+    radial-gradient(circle at 50% 28%, rgba(99,217,255,0.14), transparent 34%),
     linear-gradient(150deg, #17191d 0%, #111114 100%);
+}
+
+.portrait-card::after {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  content: "";
+  background: linear-gradient(to top, rgba(8,8,10,0.76), rgba(8,8,10,0.18) 42%, transparent 68%);
 }
 
 .portrait-card img {
   position: absolute;
-  left: 50%;
-  bottom: -2%;
-  width: min(95%, 580px);
-  height: auto;
-  transform: translateX(-50%);
-  filter: saturate(0.90) contrast(1.03);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+  filter: saturate(0.92) contrast(1.03);
   transition: transform 350ms cubic-bezier(.2,.8,.2,1), filter 350ms ease;
 }
 
 .portrait-card:hover img {
-  transform: translateX(-50%) scale(1.025);
+  transform: scale(1.03);
   filter: saturate(1) contrast(1.05);
 }
 
@@ -372,14 +381,28 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.8rem 1rem;
+  gap: 1rem;
+  padding: 0.9rem 1rem;
   color: rgba(255,255,255,0.88);
-  background: rgba(10,10,12,0.55);
+  background: rgba(10,10,12,0.58);
   border: 1px solid rgba(255,255,255,0.14);
   border-radius: 14px;
   backdrop-filter: blur(12px);
   font-family: var(--font-mono);
   font-size: 0.74rem;
+}
+
+.portrait-caption div {
+  display: grid;
+  gap: 0.22rem;
+}
+
+.portrait-caption strong {
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
 }
 
 .section-heading {
@@ -411,6 +434,82 @@ h2 {
 
 .work-card > p {
   max-width: 760px;
+}
+
+.work-card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.company-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.75rem 0.9rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.11);
+  border-radius: 18px;
+}
+
+.company-chip img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.96);
+  padding: 0.3rem;
+}
+
+.company-meta {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.company-label {
+  color: var(--text);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+}
+
+.company-role {
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
+.mini-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1.55rem;
+}
+
+.mini-stats div {
+  padding: 0.95rem 1rem;
+  background: rgba(255,255,255,0.045);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+}
+
+.mini-stats span {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.mini-stats strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.35;
 }
 
 .tag-list {
@@ -459,23 +558,49 @@ h2 {
   padding-top: 0.18rem;
 }
 
-.history-card,
-.education-card,
-.photo-card {
-  grid-column: span 4;
-  min-height: 420px;
-}
-
 .history-card {
+  grid-column: span 5;
+  min-height: 420px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background:
     linear-gradient(145deg, rgba(27, 126, 227, 0.13), transparent 60%),
     var(--surface);
 }
 
+.education-card,
+.photo-card {
+  min-height: 420px;
+}
+
+.education-card {
+  grid-column: span 3;
+  background:
+    linear-gradient(160deg, rgba(255,255,255,0.05), transparent 48%),
+    var(--surface);
+}
+
+.photo-card {
+  grid-column: span 4;
+}
+
+.history-head {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.history-intro {
+  min-width: 0;
+}
+
+.history-intro h2 {
+  margin-bottom: 0.35rem;
+}
+
 .history-logo-wrap {
+  flex: 0 0 auto;
   display: grid;
   width: 78px;
   height: 78px;
@@ -490,14 +615,19 @@ h2 {
   opacity: 0.9;
 }
 
-.history-card p:last-child {
-  margin-bottom: 0;
+.history-role {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.5;
 }
 
-.education-card {
-  background:
-    linear-gradient(160deg, rgba(255,255,255,0.05), transparent 48%),
-    var(--surface);
+.history-summary {
+  margin: 0;
+}
+
+.history-tags {
+  margin-top: auto;
 }
 
 .education-mark {
@@ -684,14 +814,28 @@ h2 {
     grid-column: span 6;
   }
 
-  .history-card,
-  .education-card,
+  .history-card {
+    grid-column: span 6;
+  }
+
+  .education-card {
+    grid-column: span 3;
+  }
+
   .photo-card {
-    grid-column: span 4;
+    grid-column: span 3;
   }
 
   .hero-card {
     min-height: 520px;
+  }
+
+  .work-card-top {
+    flex-wrap: wrap;
+  }
+
+  .mini-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .contact-card {
@@ -757,6 +901,23 @@ h2 {
 
   .hero-code span {
     display: none;
+  }
+
+  .work-card-top {
+    flex-direction: column;
+  }
+
+  .company-chip {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .mini-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .history-head {
+    align-items: flex-start;
   }
 
   .portrait-card {
