@@ -4,15 +4,34 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Aaron Barbosa is a software engineer in the Austin area building dependable web applications with C#, .NET, SQL, and JavaScript.">
-  <meta name="theme-color" content="#09090b">
+  <meta name="theme-color" content="#2e65d5">
   <title>Aaron Barbosa — Software Engineer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link id="retro-theme-css" rel="stylesheet" href="retro.css" disabled>
+  <link id="portal-theme-css" rel="stylesheet" href="portal.css" disabled>
+  <link rel="stylesheet" href="theme-toggle.css">
+  <script>
+    (() => {
+      let theme = "modern";
+      const requested = new URLSearchParams(location.search).get("theme");
+      try { theme = requested || localStorage.getItem("aaron-interface-theme") || "modern"; } catch (_) { theme = requested || "modern"; }
+      if (theme !== "retro") theme = "modern";
+      document.documentElement.dataset.interfaceTheme = theme;
+      if (theme === "retro") {
+        document.getElementById("retro-theme-css").disabled = false;
+        document.getElementById("portal-theme-css").disabled = false;
+      }
+    })();
+  </script>
   <script src="script.js" defer></script>
+  <script src="retro.js" defer></script>
+  <script src="portal.js" defer></script>
+  <script src="theme-toggle.js" defer></script>
 </head>
-<body>
+<body class="dual-interface retro-aero retro-terminal portal-era theme-modern">
   <div class="ambient-photo-carousel" aria-hidden="true">
     <span class="ambient-photo-layer is-active"></span>
     <span class="ambient-photo-layer"></span>
@@ -59,7 +78,7 @@
 
       <section class="card portrait-card reveal" id="about" aria-label="Portrait of Aaron Barbosa">
         <div class="portrait-halo" aria-hidden="true"></div>
-        <img src="your-picture.jpg" alt="Aaron Barbosa" width="720" height="960">
+        <img src="your-picture.jpg" alt="Aaron Barbosa" width="720" height="960" style="object-position: center center; transform-origin: center center;">
         <div class="portrait-caption">
           <div>
             <strong>Aaron Barbosa</strong>

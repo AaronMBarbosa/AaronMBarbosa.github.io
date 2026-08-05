@@ -1,0 +1,1224 @@
+/* ================================================================
+   DUAL INTERFACE SWITCHER
+   Keeps the original modern and AOL Personal Portal themes intact.
+   This file only owns the toggle, transition, and neutralization of
+   retro-only injected markup while Modern UI is active.
+   ================================================================ */
+
+:root {
+  --interface-transition-ms: 3500ms;
+}
+
+html.interface-switching,
+html.interface-switching body {
+  overflow: hidden;
+}
+
+/* Retro JavaScript builds these elements once so switching is instant.
+   In modern mode, hide the retro-only chrome and let the original
+   brand/navigation flow through their wrapper. */
+html[data-interface-theme="modern"] .portal-titlebar,
+html[data-interface-theme="modern"] .portal-menubar,
+html[data-interface-theme="modern"] .portal-quickbar,
+html[data-interface-theme="modern"] .portal-addressbar,
+html[data-interface-theme="modern"] .portal-gallery-titlebar,
+html[data-interface-theme="modern"] .portal-gallery-menu,
+html[data-interface-theme="modern"] .portal-gallery-location,
+html[data-interface-theme="modern"] .portal-intro-bar,
+html[data-interface-theme="modern"] .portal-status-strip,
+html[data-interface-theme="modern"] .portal-profile-flags,
+html[data-interface-theme="modern"] .portal-tray,
+html[data-interface-theme="modern"] .retro-window-bar,
+html[data-interface-theme="modern"] .retro-aero-layer,
+html[data-interface-theme="modern"] .retro-spark {
+  display: none !important;
+}
+
+html[data-interface-theme="modern"] .portal-identity-row,
+html[data-interface-theme="modern"] .portal-gallery-main {
+  display: contents !important;
+}
+
+/* The persistent mode switch */
+.interface-toggle {
+  position: fixed;
+  right: max(18px, env(safe-area-inset-right));
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 9990;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  min-width: 220px;
+  gap: 0.7rem;
+  padding: 0.58rem 0.68rem;
+  color: #f8f8fb;
+  background: rgba(16, 17, 23, 0.72);
+  border: 1px solid rgba(255,255,255,0.24);
+  border-radius: 999px;
+  box-shadow:
+    0 18px 55px rgba(0,0,0,0.34),
+    inset 0 1px 0 rgba(255,255,255,0.22);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+  transition:
+    transform 220ms cubic-bezier(.2,.8,.2,1),
+    border-color 220ms ease,
+    box-shadow 220ms ease;
+}
+
+.interface-toggle:hover {
+  transform: translateY(-3px);
+  border-color: rgba(207,255,103,0.62);
+  box-shadow:
+    0 22px 65px rgba(0,0,0,0.38),
+    0 0 28px rgba(157,123,255,0.14),
+    inset 0 1px 0 rgba(255,255,255,0.28);
+}
+
+.interface-toggle:focus-visible {
+  outline: 3px solid #d7ff63;
+  outline-offset: 4px;
+}
+
+.interface-toggle__icon {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  color: #11131a;
+  background: linear-gradient(145deg, #d7ff63, #8fe8ff 54%, #a78bfa);
+  border: 1px solid rgba(255,255,255,0.74);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 0 white, 0 4px 12px rgba(0,0,0,0.20);
+  font-family: "Space Mono", monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.interface-toggle__copy {
+  display: grid;
+  gap: 1px;
+}
+
+.interface-toggle__copy strong {
+  font-size: 0.78rem;
+  line-height: 1.15;
+}
+
+.interface-toggle__copy small {
+  color: rgba(244,244,248,0.62);
+  font-family: "Space Mono", monospace;
+  font-size: 0.52rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.interface-toggle__switch {
+  position: relative;
+  width: 42px;
+  height: 22px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.20);
+  border-radius: 999px;
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.24);
+}
+
+.interface-toggle__switch::after {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  content: "";
+  background: #d7ff63;
+  border-radius: 50%;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.30);
+  transition: transform 300ms cubic-bezier(.2,.8,.2,1), background 300ms ease;
+}
+
+/* AOL treatment for the exact same switch */
+html[data-interface-theme="retro"] .interface-toggle {
+  min-width: 242px;
+  gap: 0.55rem;
+  padding: 5px 7px;
+  color: #102e70;
+  background: linear-gradient(180deg, #f9fdff 0%, #d9effd 43%, #8fcaf0 47%, #c6e8fb 100%);
+  border: 1px solid #275fa9;
+  border-radius: 7px;
+  box-shadow:
+    0 10px 28px rgba(28,68,128,0.32),
+    inset 1px 1px 0 white,
+    inset -1px -1px 0 rgba(21,72,136,0.36);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+
+html[data-interface-theme="retro"] .interface-toggle::before {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 7px;
+  content: "";
+  background: linear-gradient(180deg, #66baf0, #2b70bb 52%, #16539d 53%, #397fc2);
+  border-radius: 5px 5px 0 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.62);
+}
+
+html[data-interface-theme="retro"] .interface-toggle:hover {
+  transform: translateY(-2px);
+  border-color: #174a99;
+  box-shadow:
+    0 13px 34px rgba(28,68,128,0.38),
+    inset 1px 1px 0 white,
+    inset -1px -1px 0 rgba(21,72,136,0.38);
+}
+
+html[data-interface-theme="retro"] .interface-toggle__icon {
+  width: 31px;
+  height: 31px;
+  margin-top: 4px;
+  color: #14357d;
+  background: linear-gradient(145deg, #ffffff, #b8e3fb 48%, #6ba9df 50%, #d8f3ff);
+  border-color: #2b65aa;
+  border-radius: 5px;
+  text-shadow: 1px 1px 0 white;
+}
+
+html[data-interface-theme="retro"] .interface-toggle__copy {
+  margin-top: 4px;
+}
+
+html[data-interface-theme="retro"] .interface-toggle__copy strong {
+  font-size: 0.72rem;
+}
+
+html[data-interface-theme="retro"] .interface-toggle__copy small {
+  color: #335486;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.56rem;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+html[data-interface-theme="retro"] .interface-toggle__switch {
+  margin-top: 4px;
+  background: #c4ddf3;
+  border-color: #4f80b5;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 2px rgba(33,75,126,0.30), inset -1px -1px 0 white;
+}
+
+html[data-interface-theme="retro"] .interface-toggle__switch::after {
+  background: #62d76d;
+  border-radius: 2px;
+  transform: translateX(20px);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.70), 0 1px 3px rgba(21,69,119,0.42);
+}
+
+/* Full-screen mode transition */
+.interface-transition {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  isolation: isolate;
+  transition: opacity 220ms ease, visibility 0s linear 220ms;
+}
+
+.interface-transition.is-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+  transition: opacity 220ms ease;
+}
+
+.interface-transition::before,
+.interface-transition::after {
+  position: absolute;
+  inset: -15%;
+  content: "";
+  pointer-events: none;
+}
+
+.interface-transition.to-retro {
+  background:
+    linear-gradient(rgba(42, 104, 167, 0.28), rgba(13, 48, 94, 0.54)),
+    rgba(31, 82, 140, 0.38);
+  backdrop-filter: blur(16px) saturate(135%);
+  -webkit-backdrop-filter: blur(16px) saturate(135%);
+}
+
+.interface-transition.to-retro::before {
+  inset: 0;
+  opacity: 0.82;
+  background:
+    repeating-linear-gradient(0deg, rgba(7, 38, 78, 0.22) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 54px),
+    radial-gradient(circle at 50% 42%, rgba(193, 235, 255, 0.78), rgba(69, 143, 210, 0.42) 34%, rgba(12, 48, 93, 0.74) 76%);
+  animation: dialupScan 520ms steps(5, end) infinite, retroScreenPulse 1800ms ease-in-out infinite;
+}
+
+.interface-transition.to-retro::after {
+  inset: 0;
+  opacity: 0.42;
+  background:
+    radial-gradient(circle at 18% 23%, rgba(255,255,255,0.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 76% 31%, rgba(215,255,99,0.55) 0 1px, transparent 2px),
+    radial-gradient(circle at 67% 79%, rgba(255,255,255,0.38) 0 1px, transparent 2px);
+  background-size: 91px 83px, 131px 109px, 157px 141px;
+  animation: pixelDrift 5s linear infinite;
+}
+
+.interface-transition.to-modern {
+  background: rgba(6,7,11,0.56);
+  backdrop-filter: blur(30px) saturate(165%);
+  -webkit-backdrop-filter: blur(30px) saturate(165%);
+}
+
+.interface-transition.to-modern::before {
+  background:
+    repeating-linear-gradient(0deg, rgba(255,255,255,0.035) 0 1px, transparent 1px 4px),
+    radial-gradient(circle at 22% 30%, rgba(157,123,255,0.48), transparent 29%),
+    radial-gradient(circle at 78% 62%, rgba(99,217,255,0.44), transparent 31%),
+    radial-gradient(circle at 52% 82%, rgba(255,114,182,0.32), transparent 27%);
+  filter: blur(20px);
+  animation: modernBloom 2600ms cubic-bezier(.2,.8,.2,1) both;
+}
+
+.interface-transition.to-modern::after {
+  inset: 0;
+  background:
+    linear-gradient(112deg, transparent 27%, rgba(255,255,255,0.34) 48%, transparent 68%),
+    linear-gradient(180deg, transparent 48%, rgba(255,255,255,0.78) 49.6%, rgba(255,255,255,0.78) 50.4%, transparent 52%);
+  transform: translateX(-120%);
+  opacity: 0;
+}
+
+.interface-transition.to-modern.theme-applied::after {
+  animation: glassWipe 1050ms cubic-bezier(.2,.8,.2,1) both, crtLineFlash 620ms ease 80ms both;
+}
+
+.interface-transition__ghost-desktop {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.interface-transition__ghost-window {
+  position: absolute;
+  width: clamp(150px, 23vw, 320px);
+  aspect-ratio: 1.46;
+  padding: 22px 8px 8px;
+  opacity: 0;
+  background: linear-gradient(180deg, #effaff, #b8def5 56%, #dff4ff);
+  border: 1px solid #1e559e;
+  border-radius: 7px;
+  box-shadow: 0 20px 65px rgba(7, 39, 82, 0.38), inset 1px 1px 0 white;
+}
+
+.interface-transition__ghost-window::before {
+  position: absolute;
+  top: 3px;
+  right: 4px;
+  left: 4px;
+  height: 16px;
+  content: "";
+  background: linear-gradient(180deg, #68b8ee, #2e75bd 48%, #15539d 52%, #3b81c4);
+  border-radius: 4px 4px 1px 1px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.66);
+}
+
+.interface-transition__ghost-window i,
+.interface-transition__ghost-window b {
+  display: block;
+  height: 16%;
+  margin: 8% 7%;
+  background: rgba(73, 142, 200, 0.19);
+  border: 1px solid rgba(30,85,158,0.22);
+}
+
+.interface-transition__ghost-window b {
+  height: 38%;
+}
+
+.ghost-window--one { left: 4%; top: 10%; transform: translate(-34px, 22px) rotate(-3deg) scale(.9); }
+.ghost-window--two { right: 3%; top: 18%; transform: translate(38px, -16px) rotate(3deg) scale(.88); }
+.ghost-window--three { left: 12%; bottom: 4%; transform: translate(-18px, 34px) rotate(2deg) scale(.8); }
+
+.to-retro.is-active .interface-transition__ghost-window {
+  animation: ghostWindowBoot 740ms cubic-bezier(.18,.82,.22,1) forwards;
+}
+
+.to-retro.is-active .ghost-window--two { animation-delay: 1080ms; }
+.to-retro.is-active .ghost-window--three { animation-delay: 1880ms; }
+
+.to-retro.theme-applied .interface-transition__ghost-window {
+  animation: ghostWindowRelease 850ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.to-modern .interface-transition__ghost-window {
+  filter: saturate(.25) brightness(.6);
+}
+
+.to-modern.is-active .interface-transition__ghost-window {
+  animation: ghostWindowClose 1100ms cubic-bezier(.65,0,.35,1) forwards;
+}
+
+.to-modern.is-active .ghost-window--two { animation-delay: 130ms; }
+.to-modern.is-active .ghost-window--three { animation-delay: 260ms; }
+
+.interface-transition__panel {
+  position: relative;
+  z-index: 2;
+  width: min(470px, calc(100vw - 34px));
+  padding: 1rem;
+  color: #f7f8fc;
+  background: rgba(16,17,23,0.82);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 22px;
+  box-shadow: 0 30px 100px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.28);
+  backdrop-filter: blur(30px) saturate(170%);
+  -webkit-backdrop-filter: blur(30px) saturate(170%);
+  transform: translateY(18px) scale(0.96);
+  opacity: 0;
+}
+
+.interface-transition.is-active .interface-transition__panel {
+  animation: transitionPanelIn 520ms cubic-bezier(.18,.82,.22,1) forwards;
+}
+
+.interface-transition.theme-applied .interface-transition__panel {
+  animation: transitionPanelHandoff 920ms cubic-bezier(.2,.8,.2,1) forwards;
+}
+
+.interface-transition.is-complete .interface-transition__panel {
+  opacity: 0;
+  transform: translateY(-10px) scale(.985);
+  transition: opacity 360ms ease, transform 360ms ease;
+}
+
+.interface-transition.to-retro .interface-transition__panel {
+  padding: 5px;
+  color: #17366f;
+  background: #d9eefb;
+  border: 1px solid #1f559c;
+  border-radius: 7px;
+  box-shadow: 0 24px 70px rgba(8,42,88,0.5), inset 1px 1px 0 white;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.interface-transition__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  margin-bottom: 0.7rem;
+  font-family: "Space Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.to-retro .interface-transition__title {
+  min-height: 25px;
+  margin: -1px -1px 0.65rem;
+  padding: 3px 5px 3px 7px;
+  color: white;
+  background: linear-gradient(180deg, #70c4f5, #347fc8 47%, #18549d 52%, #397ec1);
+  border-bottom: 1px solid #123f80;
+  border-radius: 5px 5px 0 0;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: 1px 1px 0 #173c76;
+}
+
+.interface-transition__window-buttons {
+  display: flex;
+  gap: 3px;
+}
+
+.interface-transition__window-buttons i {
+  width: 11px;
+  height: 11px;
+  background: rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.26);
+  border-radius: 3px;
+}
+
+.to-retro .interface-transition__window-buttons i {
+  background: linear-gradient(145deg, #f9ffff, #a8daf4 48%, #6aa8d8 52%, #dff6ff);
+  border-color: #275c9d;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 white;
+}
+
+.to-retro .interface-transition__window-buttons i:last-child {
+  background: linear-gradient(145deg, #fff3f2, #f39f94 50%, #ce574c 51%, #ffd0c9);
+}
+
+.interface-transition__body {
+  display: grid;
+  gap: 0.72rem;
+  padding: 0.25rem;
+}
+
+.interface-transition__identity {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.interface-transition__mark {
+  display: grid;
+  width: 54px;
+  height: 54px;
+  place-items: center;
+  color: #0f1118;
+  background: linear-gradient(145deg, #d7ff63, #70e6ff 55%, #a78bfa);
+  border: 1px solid rgba(255,255,255,0.72);
+  border-radius: 16px;
+  box-shadow: inset 0 1px 0 white, 0 8px 28px rgba(0,0,0,0.22);
+  font-family: "Space Mono", monospace;
+  font-weight: 700;
+  animation: logoCarrierPulse 880ms steps(2, end) infinite;
+}
+
+.to-retro .interface-transition__mark {
+  width: 48px;
+  height: 48px;
+  color: #163f84;
+  background: linear-gradient(145deg, white, #b9e7ff 49%, #6aaadf 51%, #ddf5ff);
+  border-color: #2d64a5;
+  border-radius: 5px;
+  text-shadow: 1px 1px 0 white;
+  box-shadow: inset 1px 1px 0 white, inset -1px -1px 0 #709ac1;
+}
+
+.interface-transition__copy strong {
+  display: block;
+  margin-bottom: 0.2rem;
+  font-size: 1rem;
+}
+
+.interface-transition__status {
+  min-height: 2.6em;
+  margin: 0;
+  color: rgba(247,248,252,0.68);
+  font-family: "Space Mono", monospace;
+  font-size: 0.64rem;
+  line-height: 1.4;
+}
+
+.to-retro .interface-transition__status {
+  color: #3b5786;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.72rem;
+}
+
+.interface-transition__modem {
+  display: grid;
+  gap: 0.4rem;
+  padding: 0.58rem 0.65rem;
+  background: rgba(255,255,255,0.055);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  box-shadow: inset 0 1px 10px rgba(0,0,0,0.15);
+}
+
+.to-retro .interface-transition__modem {
+  background: linear-gradient(180deg, #f8fdff, #dceefa);
+  border-color: #7ea6ca;
+  border-radius: 3px;
+  box-shadow: inset 1px 1px 0 white, inset -1px -1px 0 #aac9df;
+}
+
+.interface-transition__modem-head,
+.interface-transition__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.7rem;
+  color: rgba(247,248,252,0.52);
+  font-family: "Space Mono", monospace;
+  font-size: 0.51rem;
+  letter-spacing: 0.07em;
+}
+
+.to-retro .interface-transition__modem-head,
+.to-retro .interface-transition__footer {
+  color: #4b678e;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  letter-spacing: 0;
+}
+
+.interface-transition__lights {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+.interface-transition__lights span {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+  color: rgba(247,248,252,0.38);
+  font-family: "Space Mono", monospace;
+  font-size: 0.48rem;
+}
+
+.to-retro .interface-transition__lights span {
+  color: #6b7f9d;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+
+.interface-transition__lights i {
+  width: 7px;
+  height: 7px;
+  background: #26303b;
+  border: 1px solid rgba(255,255,255,0.16);
+  border-radius: 50%;
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.55);
+}
+
+.interface-transition__lights .is-on {
+  color: rgba(247,248,252,0.84);
+}
+
+.interface-transition__lights .is-on i {
+  background: #baff54;
+  border-color: rgba(220,255,175,0.9);
+  box-shadow: 0 0 9px rgba(186,255,84,0.7), inset 0 1px 0 white;
+  animation: modemLightBlink 420ms steps(2, end) infinite;
+}
+
+.to-retro .interface-transition__lights .is-on {
+  color: #214d80;
+}
+
+.interface-transition__signal {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  align-items: end;
+  gap: 3px;
+  height: 24px;
+  padding: 2px 0;
+}
+
+.interface-transition__signal i {
+  display: block;
+  height: 20%;
+  background: linear-gradient(180deg, #baff54, #57e4ff);
+  border-radius: 1px 1px 0 0;
+  opacity: 0.34;
+  animation: signalDance 760ms steps(4, end) infinite alternate;
+}
+
+.interface-transition__signal i:nth-child(2n) { animation-delay: -180ms; }
+.interface-transition__signal i:nth-child(3n) { animation-delay: -360ms; }
+.interface-transition__signal i:nth-child(4n) { animation-delay: -540ms; }
+
+.to-retro .interface-transition__signal i {
+  background: linear-gradient(180deg, #7fd66a, #2670bd);
+}
+
+.interface-transition__terminal {
+  display: grid;
+  gap: 0.22rem;
+  min-height: 4.4rem;
+  padding: 0.58rem 0.68rem;
+  overflow: hidden;
+  color: #c8ff6a;
+  background: #06130d;
+  border: 1px solid rgba(167,255,92,0.3);
+  border-radius: 7px;
+  box-shadow: inset 0 0 18px rgba(0,0,0,0.74);
+  font-family: "Space Mono", monospace;
+  font-size: 0.56rem;
+  line-height: 1.35;
+}
+
+.interface-transition__terminal span::before {
+  content: "> ";
+  color: #59e8ff;
+}
+
+.interface-transition__terminal span:last-child::after {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.3em;
+  vertical-align: -0.15em;
+  content: "";
+  background: currentColor;
+  animation: terminalCursor 620ms steps(2, end) infinite;
+}
+
+.to-retro .interface-transition__terminal {
+  color: #195f34;
+  background: #edf7e8;
+  border-color: #7ca584;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 3px rgba(43,83,54,0.24);
+  font-family: "Courier New", monospace;
+}
+
+.to-retro .interface-transition__terminal span::before {
+  color: #234f93;
+}
+
+.interface-transition__progress {
+  height: 9px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px;
+}
+
+.interface-transition__progress i {
+  display: block;
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #d7ff63, #70e6ff 52%, #a78bfa);
+  border-radius: inherit;
+}
+
+.is-active .interface-transition__progress i {
+  animation: transitionProgress var(--interface-transition-ms) linear forwards;
+}
+
+.to-retro .interface-transition__progress {
+  height: 18px;
+  padding: 2px;
+  background: white;
+  border-color: #638bb8;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 2px rgba(36,73,120,0.32);
+}
+
+.to-retro .interface-transition__progress i {
+  background: repeating-linear-gradient(90deg, #2f75c5 0 11px, #78b7ed 11px 14px);
+  border-radius: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+.interface-transition__footer {
+  min-height: 1em;
+}
+
+@keyframes dialupScan {
+  from { transform: translateY(-2px); }
+  to { transform: translateY(2px); }
+}
+
+@keyframes retroScreenPulse {
+  0%, 100% { filter: brightness(.92) contrast(1.02); }
+  50% { filter: brightness(1.08) contrast(1.08); }
+}
+
+@keyframes pixelDrift {
+  from { transform: translate3d(0,0,0); }
+  to { transform: translate3d(42px,24px,0); }
+}
+
+@keyframes modernBloom {
+  0% { transform: scale(.72) rotate(-4deg); opacity: 0; }
+  38% { opacity: .54; }
+  100% { transform: scale(1.16) rotate(2deg); opacity: 1; }
+}
+
+@keyframes glassWipe {
+  0% { transform: translateX(-120%); opacity: 0; }
+  18% { opacity: 1; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+@keyframes crtLineFlash {
+  0% { clip-path: inset(50% 0 50%); opacity: 0; }
+  35% { clip-path: inset(48% 0 48%); opacity: .95; }
+  100% { clip-path: inset(0); opacity: 0; }
+}
+
+@keyframes transitionPanelIn {
+  0% { transform: translateY(18px) scale(.96); opacity: 0; }
+  72% { transform: translateY(-2px) scale(1.008); opacity: 1; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes transitionPanelHandoff {
+  0% { transform: translateY(0) scale(1); opacity: 1; filter: none; }
+  28% { transform: translateY(1px) scale(1.004); filter: brightness(1.12); }
+  62% { transform: translateY(-2px) scale(.994); opacity: .96; }
+  100% { transform: translateY(-8px) scale(.985); opacity: .78; filter: brightness(.94); }
+}
+
+@keyframes transitionProgress {
+  to { width: 100%; }
+}
+
+@keyframes ghostWindowBoot {
+  0% { opacity: 0; transform: translateY(28px) scale(.82); }
+  58% { opacity: .8; }
+  100% { opacity: .58; transform: translateY(0) scale(1); }
+}
+
+@keyframes ghostWindowRelease {
+  0% { opacity: .58; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-30px) scale(1.06); }
+}
+
+@keyframes ghostWindowClose {
+  0% { opacity: .5; transform: scale(1); }
+  62% { opacity: .34; transform: scale(.98); }
+  100% { opacity: 0; transform: scale(.08) translateY(220px); }
+}
+
+@keyframes modemLightBlink {
+  0%, 45% { filter: brightness(1); }
+  46%, 100% { filter: brightness(.42); }
+}
+
+@keyframes signalDance {
+  0% { height: 18%; opacity: .28; }
+  30% { height: 82%; opacity: .9; }
+  62% { height: 38%; opacity: .54; }
+  100% { height: 100%; opacity: 1; }
+}
+
+@keyframes terminalCursor {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes logoCarrierPulse {
+  0%, 48% { filter: brightness(1); }
+  49%, 100% { filter: brightness(1.12); }
+}
+
+@media (max-width: 640px) {
+  .interface-toggle {
+    right: 12px;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 12px;
+    min-width: 0;
+    width: auto;
+  }
+
+  html[data-interface-theme="retro"] .interface-toggle {
+    min-width: 0;
+  }
+
+  .interface-transition__panel {
+    width: min(470px, calc(100vw - 20px));
+  }
+
+  .interface-transition__terminal {
+    min-height: 3.8rem;
+    font-size: 0.5rem;
+  }
+
+  .interface-transition__ghost-window {
+    width: 150px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --interface-transition-ms: 180ms; }
+
+  .interface-toggle,
+  .interface-toggle__switch::after,
+  .interface-transition,
+  .interface-transition::before,
+  .interface-transition::after,
+  .interface-transition__panel,
+  .interface-transition__progress i,
+  .interface-transition__ghost-window,
+  .interface-transition__mark,
+  .interface-transition__lights i,
+  .interface-transition__signal i,
+  .interface-transition__terminal span::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ================================================================
+   COMPACT RETRO -> MODERN HANDOFF
+   The full AOL dial-up animation above remains unchanged for the
+   Modern -> Personal Portal direction. These later rules affect only
+   Personal Portal -> Modern and intentionally reduce its flash,
+   saturation, and total duration.
+   ================================================================ */
+
+.interface-transition__modern-stage {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  display: none;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.interface-transition.to-modern {
+  --interface-transition-ms: 2050ms;
+  background: rgba(24, 48, 76, 0.54);
+  backdrop-filter: blur(9px) saturate(118%);
+  -webkit-backdrop-filter: blur(9px) saturate(118%);
+  animation: modernBackdropCompact 2300ms linear both;
+}
+
+.interface-transition.to-modern .interface-transition__modern-stage {
+  display: block;
+}
+
+.interface-transition.to-modern::before {
+  inset: 0;
+  opacity: 0.72;
+  background:
+    repeating-linear-gradient(0deg, rgba(18,65,112,0.11) 0 1px, transparent 1px 4px),
+    linear-gradient(180deg, rgba(111,178,221,0.34), rgba(31,72,117,0.42));
+  filter: none;
+  animation: modernRasterCompact 2300ms ease both;
+}
+
+.interface-transition.to-modern::after,
+.interface-transition.to-modern.theme-applied::after {
+  inset: -8%;
+  opacity: 0;
+  background:
+    radial-gradient(circle at 30% 36%, rgba(157,123,255,0.25), transparent 27%),
+    radial-gradient(circle at 72% 61%, rgba(99,217,255,0.23), transparent 29%);
+  transform: scale(.86);
+  animation: modernColorResolveCompact 2300ms cubic-bezier(.2,.72,.2,1) both;
+}
+
+.interface-transition.to-modern .interface-transition__ghost-window {
+  opacity: 0.38;
+  filter: saturate(.62) brightness(.88);
+}
+
+.interface-transition.to-modern.is-active .interface-transition__ghost-window {
+  animation: ghostWindowCloseCompact 760ms cubic-bezier(.65,0,.35,1) forwards;
+}
+
+.interface-transition.to-modern.is-active .ghost-window--two { animation-delay: 70ms; }
+.interface-transition.to-modern.is-active .ghost-window--three { animation-delay: 140ms; }
+
+.interface-transition.to-modern .interface-transition__modem,
+.interface-transition.to-modern .interface-transition__terminal,
+.interface-transition.to-modern .interface-transition__footer {
+  display: none;
+}
+
+.interface-transition.to-modern .interface-transition__panel,
+.interface-transition.to-modern.is-active .interface-transition__panel,
+.interface-transition.to-modern.theme-applied .interface-transition__panel {
+  width: min(410px, calc(100vw - 34px));
+  padding: 5px;
+  color: #17366f;
+  background: #d9eefb;
+  border: 1px solid #1f559c;
+  border-radius: 7px;
+  box-shadow: 0 22px 62px rgba(8,42,88,0.38), inset 1px 1px 0 white;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  animation: modernPanelCompact 2300ms cubic-bezier(.2,.72,.2,1) both;
+}
+
+.interface-transition.to-modern.is-complete .interface-transition__panel {
+  transition: none;
+}
+
+.interface-transition.to-modern .interface-transition__title {
+  min-height: 25px;
+  margin: -1px -1px 0.65rem;
+  padding: 3px 5px 3px 7px;
+  color: white;
+  background: linear-gradient(180deg, #70c4f5, #347fc8 47%, #18549d 52%, #397ec1);
+  border-bottom: 1px solid #123f80;
+  border-radius: 5px 5px 0 0;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.68rem;
+  letter-spacing: 0;
+  text-transform: none;
+  text-shadow: 1px 1px 0 #173c76;
+  animation: modernTitleCompact 2300ms ease both;
+}
+
+.interface-transition.to-modern .interface-transition__window-buttons i {
+  background: linear-gradient(145deg, #f9ffff, #a8daf4 48%, #6aa8d8 52%, #dff6ff);
+  border-color: #275c9d;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 0 white;
+}
+
+.interface-transition.to-modern .interface-transition__window-buttons i:last-child {
+  background: linear-gradient(145deg, #fff3f2, #f39f94 50%, #ce574c 51%, #ffd0c9);
+}
+
+.interface-transition.to-modern .interface-transition__mark {
+  width: 48px;
+  height: 48px;
+  color: #163f84;
+  background: linear-gradient(145deg, white, #b9e7ff 49%, #6aaadf 51%, #ddf5ff);
+  border-color: #2d64a5;
+  border-radius: 5px;
+  text-shadow: 1px 1px 0 white;
+  box-shadow: inset 1px 1px 0 white, inset -1px -1px 0 #709ac1;
+  animation: modernMarkCompact 2300ms cubic-bezier(.2,.72,.2,1) both;
+}
+
+.interface-transition.to-modern .interface-transition__status {
+  min-height: 1.4em;
+  color: #3b5786;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 0.72rem;
+  animation: modernStatusCompact 2300ms ease both;
+}
+
+.interface-transition.to-modern .interface-transition__progress {
+  height: 18px;
+  padding: 2px;
+  background: white;
+  border-color: #638bb8;
+  border-radius: 2px;
+  box-shadow: inset 1px 1px 2px rgba(36,73,120,0.32);
+  animation: modernTrackCompact 2300ms ease both;
+}
+
+.interface-transition.to-modern .interface-transition__progress i {
+  background: repeating-linear-gradient(90deg, #2f75c5 0 11px, #78b7ed 11px 14px);
+  border-radius: 0;
+  animation-name: transitionProgress, modernProgressCompact;
+  animation-duration: 2050ms, 2300ms;
+  animation-timing-function: linear, ease;
+  animation-fill-mode: forwards, both;
+}
+
+.interface-transition__crt-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 1px;
+  opacity: 0;
+  background: rgba(235,252,255,0.92);
+  box-shadow: 0 0 10px rgba(99,217,255,0.52), 0 0 24px rgba(157,123,255,0.28);
+  transform: translate(-50%, -50%);
+  animation: modernCrtCompact 2300ms cubic-bezier(.4,0,.2,1) both;
+}
+
+.interface-transition__glass-orb {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0;
+  filter: blur(38px);
+  mix-blend-mode: screen;
+  animation: modernOrbCompact 2300ms cubic-bezier(.2,.72,.2,1) both;
+}
+
+.interface-transition__glass-orb.orb-one {
+  top: 15%;
+  left: 13%;
+  width: 26vw;
+  height: 26vw;
+  background: rgba(157,123,255,0.20);
+}
+
+.interface-transition__glass-orb.orb-two {
+  right: 12%;
+  bottom: 12%;
+  width: 30vw;
+  height: 30vw;
+  background: rgba(99,217,255,0.19);
+  animation-delay: 50ms;
+}
+
+.interface-transition__glass-orb.orb-three {
+  display: none;
+}
+
+@keyframes modernBackdropCompact {
+  0%, 42% { background-color: rgba(24,48,76,0.54); }
+  58% { background-color: rgba(9,14,23,0.76); }
+  100% { background-color: rgba(6,7,11,0.38); }
+}
+
+@keyframes modernRasterCompact {
+  0%, 42% { opacity: .72; transform: scaleY(1); }
+  56% { opacity: .44; transform: scaleY(.025); }
+  70%, 100% { opacity: 0; transform: scaleY(.006); }
+}
+
+@keyframes modernColorResolveCompact {
+  0%, 54% { opacity: 0; transform: scale(.86); }
+  76% { opacity: .34; transform: scale(1); }
+  100% { opacity: .16; transform: scale(1.08); }
+}
+
+@keyframes ghostWindowCloseCompact {
+  0% { opacity: .38; transform: scale(1); }
+  65% { opacity: .18; transform: scale(.97); }
+  100% { opacity: 0; transform: scale(.12) translateY(160px); }
+}
+
+@keyframes modernPanelCompact {
+  0% { transform: translateY(14px) scale(.97); opacity: 0; }
+  10%, 43% { transform: translateY(0) scale(1); opacity: 1; }
+  54% { transform: scaleX(1.025) scaleY(.045); opacity: .96; }
+  62% { transform: scaleX(.28) scaleY(.025); opacity: .48; }
+  69% {
+    padding: 1rem;
+    color: #f7f8fc;
+    background: rgba(16,17,23,0.80);
+    border-color: rgba(255,255,255,0.24);
+    border-radius: 22px;
+    box-shadow: 0 26px 78px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.26);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    transform: translateY(7px) scale(.94);
+    opacity: 0;
+  }
+  82%, 91% {
+    padding: 1rem;
+    color: #f7f8fc;
+    background: rgba(16,17,23,0.80);
+    border-color: rgba(255,255,255,0.24);
+    border-radius: 22px;
+    box-shadow: 0 26px 78px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.26);
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  100% { transform: translateY(-5px) scale(1.01); opacity: 0; }
+}
+
+@keyframes modernTitleCompact {
+  0%, 55% { opacity: 1; }
+  63%, 70% { opacity: 0; }
+  78%, 100% {
+    margin: 0 0 .7rem;
+    padding: 0;
+    color: #f7f8fc;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    font-family: "Space Mono", monospace;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    text-shadow: none;
+    opacity: 1;
+  }
+}
+
+@keyframes modernMarkCompact {
+  0%, 54% { transform: scale(1); opacity: 1; }
+  63%, 70% { transform: rotate(45deg) scale(.1); opacity: 0; }
+  78% {
+    color: #0f1118;
+    background: linear-gradient(145deg, #d7ff63, #70e6ff 55%, #a78bfa);
+    border-color: rgba(255,255,255,.72);
+    border-radius: 16px;
+    text-shadow: none;
+    box-shadow: inset 0 1px 0 white, 0 8px 28px rgba(0,0,0,.22);
+    transform: rotate(-12deg) scale(.55);
+    opacity: 0;
+  }
+  88%, 100% {
+    color: #0f1118;
+    background: linear-gradient(145deg, #d7ff63, #70e6ff 55%, #a78bfa);
+    border-color: rgba(255,255,255,.72);
+    border-radius: 16px;
+    text-shadow: none;
+    box-shadow: inset 0 1px 0 white, 0 8px 28px rgba(0,0,0,.22);
+    transform: rotate(0) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes modernStatusCompact {
+  0%, 55% { color: #3b5786; }
+  66% { opacity: 0; }
+  80%, 100% { color: rgba(247,248,252,.68); opacity: 1; }
+}
+
+@keyframes modernTrackCompact {
+  0%, 55% { height: 18px; padding: 2px; border-radius: 2px; }
+  65% { opacity: 0; }
+  78%, 100% {
+    height: 9px;
+    padding: 0;
+    background: rgba(255,255,255,.10);
+    border-color: rgba(255,255,255,.14);
+    border-radius: 999px;
+    opacity: 1;
+  }
+}
+
+@keyframes modernProgressCompact {
+  0%, 56% {
+    background: repeating-linear-gradient(90deg, #2f75c5 0 11px, #78b7ed 11px 14px);
+    border-radius: 0;
+  }
+  67% { opacity: 0; }
+  80%, 100% {
+    background: linear-gradient(90deg, #d7ff63, #70e6ff 52%, #a78bfa);
+    border-radius: 999px;
+    opacity: 1;
+  }
+}
+
+@keyframes modernCrtCompact {
+  0%, 45% { width: 0; opacity: 0; }
+  54% { width: 68vw; opacity: .68; }
+  63% { width: 16vw; opacity: .45; }
+  70%, 100% { width: 0; opacity: 0; }
+}
+
+@keyframes modernOrbCompact {
+  0%, 64% { opacity: 0; transform: scale(.45); }
+  82% { opacity: .34; transform: scale(1); }
+  100% { opacity: .12; transform: scale(1.12); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .interface-transition__modern-stage {
+    display: none !important;
+  }
+}
+
+/* Final compositor cleanup for Personal Portal -> Modern.
+   The decorative legacy windows are removed before the live modern page is
+   revealed, preventing a one-frame translucent afterimage on some GPUs. */
+.interface-transition__ghost-desktop {
+  opacity: 1;
+  transition: opacity 150ms ease, visibility 0s linear 0s;
+}
+
+.interface-transition.to-modern.ghosts-cleared .interface-transition__ghost-desktop {
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 150ms ease, visibility 0s linear 150ms;
+}
+
+.interface-transition.to-modern.ghosts-cleared .interface-transition__ghost-window {
+  animation: none !important;
+  opacity: 0 !important;
+}
+

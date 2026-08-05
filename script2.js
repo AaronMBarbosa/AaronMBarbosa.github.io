@@ -6,15 +6,87 @@ const stage = document.querySelector('.gallery-stage');
 const imagesContainer = document.querySelector('.images-container');
 const intro = document.querySelector('#gallery-intro');
 const countdown = document.querySelector('#intro-countdown');
-const timerProgress = document.querySelector('.timer-bar i');
+const timerFill = document.querySelector('.timer-bar i');
 const counter = document.querySelector('#counter-current');
+
+const auroraBackground = document.querySelector('.aurora-background');
+
+function randomBetween(min, max) {
+  return min + Math.random() * (max - min);
+}
+
+function buildAuroraBackground() {
+  if (!auroraBackground) return;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const palette = [
+    'rgba(157, 123, 255, 0.62)',
+    'rgba(99, 217, 255, 0.56)',
+    'rgba(255, 114, 182, 0.52)',
+    'rgba(94, 234, 212, 0.46)',
+    'rgba(215, 255, 99, 0.34)',
+    'rgba(96, 111, 255, 0.52)',
+    'rgba(255, 151, 92, 0.42)'
+  ];
+
+  const orbCount = window.innerWidth < 700 ? 5 : 8;
+
+  for (let index = 0; index < orbCount; index += 1) {
+    const orb = document.createElement('span');
+    orb.className = 'aurora-orb';
+    orb.style.setProperty('--aurora-color', palette[Math.floor(Math.random() * palette.length)]);
+    orb.style.setProperty('--aurora-size', `${randomBetween(38, 74).toFixed(1)}vmax`);
+    orb.style.setProperty('--aurora-opacity', randomBetween(0.38, 0.72).toFixed(2));
+    auroraBackground.appendChild(orb);
+
+    const startX = randomBetween(-12, 78);
+    const startY = randomBetween(-18, 76);
+    const middleX = randomBetween(-18, 82);
+    const middleY = randomBetween(-22, 80);
+    const endX = randomBetween(-12, 78);
+    const endY = randomBetween(-18, 76);
+    const scaleA = randomBetween(0.82, 1.12);
+    const scaleB = randomBetween(1.00, 1.32);
+    const rotateA = randomBetween(-24, 24);
+    const rotateB = randomBetween(-34, 34);
+
+    if (reducedMotion) {
+      orb.style.transform = `translate3d(${startX}vw, ${startY}vh, 0) scale(${scaleA}) rotate(${rotateA}deg)`;
+      continue;
+    }
+
+    orb.animate([
+      {
+        transform: `translate3d(${startX}vw, ${startY}vh, 0) scale(${scaleA}) rotate(${rotateA}deg)`,
+        opacity: randomBetween(0.32, 0.56)
+      },
+      {
+        transform: `translate3d(${middleX}vw, ${middleY}vh, 0) scale(${scaleB}) rotate(${rotateB}deg)`,
+        opacity: randomBetween(0.52, 0.82),
+        offset: randomBetween(0.38, 0.62)
+      },
+      {
+        transform: `translate3d(${endX}vw, ${endY}vh, 0) scale(${randomBetween(0.88, 1.18)}) rotate(${randomBetween(-28, 28)}deg)`,
+        opacity: randomBetween(0.34, 0.60)
+      }
+    ], {
+      duration: randomBetween(16000, 32000),
+      delay: -randomBetween(0, 14000),
+      iterations: Infinity,
+      direction: Math.random() > 0.5 ? 'alternate' : 'alternate-reverse',
+      easing: 'ease-in-out'
+    });
+  }
+}
+
+buildAuroraBackground();
 
 let imagePool = [];
 let globalIndex = 0;
 let lastPoint = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
 let hasStarted = false;
 let isPointerDown = false;
-let autoStartFrame = null;
+let autoStartTimer = null;
 
 const shuffledIndices = Array.from({ length: TOTAL_IMAGES }, (_, index) => index + 1)
   .sort(() => Math.random() - 0.5);
@@ -81,9 +153,9 @@ function activateImage(x, y) {
 }
 
 function beginExperience(x = window.innerWidth / 2, y = window.innerHeight / 2) {
-  if (autoStartFrame !== null) {
-    window.cancelAnimationFrame(autoStartFrame);
-    autoStartFrame = null;
+  if (autoStartTimer !== null) {
+    window.cancelAnimationFrame(autoStartTimer);
+    autoStartTimer = null;
   }
 
   if (!hasStarted) {
@@ -133,32 +205,34 @@ buildImagePool().then(() => {
   if (!imagePool.length) {
     intro.querySelector('p:last-of-type').textContent = 'The photo archive could not be loaded. Please refresh and try again.';
     countdown.textContent = '--';
+    if (timerFill) timerFill.style.transform = 'scaleX(0)';
     return;
   }
 
-  const INTRO_DURATION_MS = 3000;
+  const INTRO_SECONDS = 3;
+  const durationMs = INTRO_SECONDS * 1000;
   const startedAt = performance.now();
-  countdown.textContent = '03';
-  timerProgress?.style.setProperty('--timer-progress', '1');
+  countdown.textContent = String(INTRO_SECONDS).padStart(2, '0');
+  if (timerFill) timerFill.style.transform = 'scaleX(1)';
 
-  const updateIntroTimer = (now) => {
+  const updateCountdown = (now) => {
     if (hasStarted) return;
 
-    const elapsed = Math.min(INTRO_DURATION_MS, now - startedAt);
-    const progress = Math.max(0, 1 - (elapsed / INTRO_DURATION_MS));
-    const remaining = Math.max(0, Math.ceil((INTRO_DURATION_MS - elapsed) / 1000));
+    const elapsed = now - startedAt;
+    const progress = Math.min(1, elapsed / durationMs);
+    const remaining = Math.max(0, Math.ceil((durationMs - elapsed) / 1000));
 
     countdown.textContent = String(remaining).padStart(2, '0');
-    timerProgress?.style.setProperty('--timer-progress', progress.toFixed(4));
+    if (timerFill) timerFill.style.transform = `scaleX(${1 - progress})`;
 
-    if (elapsed >= INTRO_DURATION_MS) {
-      autoStartFrame = null;
+    if (progress >= 1) {
+      autoStartTimer = null;
       beginExperience();
       return;
     }
 
-    autoStartFrame = window.requestAnimationFrame(updateIntroTimer);
+    autoStartTimer = window.requestAnimationFrame(updateCountdown);
   };
 
-  autoStartFrame = window.requestAnimationFrame(updateIntroTimer);
+  autoStartTimer = window.requestAnimationFrame(updateCountdown);
 });

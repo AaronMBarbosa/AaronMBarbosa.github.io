@@ -4,21 +4,41 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="A playful interactive collection of film photography by Aaron Barbosa.">
-  <meta name="theme-color" content="#09090b">
+  <meta name="theme-color" content="#2e65d5">
   <title>Photos — Aaron Barbosa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style2.css">
+  <link id="retro-theme-css" rel="stylesheet" href="retro.css" disabled>
+  <link id="portal-theme-css" rel="stylesheet" href="portal.css" disabled>
+  <link rel="stylesheet" href="theme-toggle.css">
+  <script>
+    (() => {
+      let theme = "modern";
+      const requested = new URLSearchParams(location.search).get("theme");
+      try { theme = requested || localStorage.getItem("aaron-interface-theme") || "modern"; } catch (_) { theme = requested || "modern"; }
+      if (theme !== "retro") theme = "modern";
+      document.documentElement.dataset.interfaceTheme = theme;
+      if (theme === "retro") {
+        document.getElementById("retro-theme-css").disabled = false;
+        document.getElementById("portal-theme-css").disabled = false;
+      }
+    })();
+  </script>
   <script src="script2.js" defer></script>
+  <script src="retro.js" defer></script>
+  <script src="portal.js" defer></script>
+  <script src="theme-toggle.js" defer></script>
 </head>
-<body>
+<body class="dual-interface retro-aero retro-photo retro-terminal portal-era portal-photo theme-modern">
   <header class="gallery-header">
     <a class="back-link" href="index.html"><span aria-hidden="true">←</span> Aaron Barbosa</a>
     <p>35mm archive · move, drag, or tap</p>
   </header>
 
   <main class="gallery-stage" aria-label="Interactive photo gallery">
+    <div class="aurora-background" aria-hidden="true"></div>
     <div class="gallery-intro" id="gallery-intro">
       <p class="eyebrow">Selected frames</p>
       <h1>Photos that found me.</h1>

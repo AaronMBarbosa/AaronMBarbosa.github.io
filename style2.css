@@ -22,9 +22,7 @@ body {
 body {
   overflow: hidden;
   color: var(--text);
-  background:
-    radial-gradient(circle at 50% 45%, rgba(157, 123, 255, 0.10), transparent 32rem),
-    var(--bg);
+  background: var(--bg);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
 }
@@ -80,14 +78,47 @@ body::after {
 .gallery-stage {
   position: fixed;
   inset: 0;
+  z-index: 0;
   overflow: hidden;
   touch-action: none;
   cursor: crosshair;
 }
 
+.aurora-background {
+  position: absolute;
+  inset: -18%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0.94;
+  filter: blur(54px) saturate(168%) contrast(1.08);
+  transform: translateZ(0);
+}
+
+.aurora-orb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--aurora-size, 48vmax);
+  aspect-ratio: 1.35 / 1;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, var(--aurora-color, rgba(157,123,255,0.48)) 0%, transparent 70%);
+  mix-blend-mode: screen;
+  opacity: var(--aurora-opacity, 0.52);
+  will-change: transform, opacity;
+}
+
+.aurora-background::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background: radial-gradient(circle at center, transparent 10%, rgba(9,9,11,0.08) 70%, rgba(9,9,11,0.44) 100%);
+}
+
 .gallery-stage::before {
   position: absolute;
   inset: 0;
+  z-index: 1;
   content: "";
   pointer-events: none;
   background-image:
@@ -102,11 +133,7 @@ body::after {
   top: 50%;
   left: 50%;
   z-index: 600;
-  display: flex;
   width: min(700px, calc(100% - 40px));
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   text-align: center;
   transform: translate(-50%, -50%);
   transition: opacity 400ms ease, transform 500ms cubic-bezier(.2,.8,.2,1), filter 400ms ease;
@@ -143,15 +170,13 @@ body::after {
 }
 
 .intro-timer {
-  display: flex;
-  width: min(210px, 72vw);
-  min-width: 0;
-  margin: 1.8rem auto 0;
-  padding: 0.85rem 1rem 0.9rem;
+  display: inline-flex;
+  width: 210px;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
+  gap: 0.55rem;
+  margin-top: 1.8rem;
+  padding: 0.85rem 1rem 0.9rem;
   color: rgba(255,255,255,0.78);
   background: rgba(255,255,255,0.055);
   border: 1px solid rgba(255,255,255,0.14);
@@ -162,7 +187,6 @@ body::after {
 }
 
 .timer-label {
-  align-self: center;
   color: var(--muted);
   font-family: var(--font-mono);
   font-size: 0.67rem;
@@ -171,8 +195,6 @@ body::after {
 }
 
 #intro-countdown {
-  display: block;
-  width: 100%;
   color: var(--lime);
   font-family: var(--font-mono);
   font-size: 1.35rem;
@@ -185,7 +207,6 @@ body::after {
   width: 100%;
   height: 3px;
   overflow: hidden;
-  margin: 0;
   background: rgba(255,255,255,0.10);
   border-radius: 999px;
 }
@@ -196,7 +217,7 @@ body::after {
   height: 100%;
   background: linear-gradient(90deg, var(--lime), #9d7bff, #63d9ff);
   border-radius: inherit;
-  transform: scaleX(var(--timer-progress, 1));
+  transform: scaleX(1);
   transform-origin: left;
   will-change: transform;
 }
@@ -204,6 +225,7 @@ body::after {
 .images-container {
   position: absolute;
   inset: 0;
+  z-index: 50;
 }
 
 .trail-image {
@@ -278,5 +300,9 @@ noscript {
   *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+
+  .aurora-background {
+    opacity: 0.68;
   }
 }

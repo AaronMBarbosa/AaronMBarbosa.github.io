@@ -1,0 +1,1526 @@
+/*
+  Retro-modern / Frutiger Aero edition
+  Loaded after the existing styles so the original layout and interactions remain intact.
+*/
+
+body.retro-aero {
+  --bg: #031724;
+  --surface: rgba(8, 55, 78, 0.54);
+  --surface-strong: rgba(7, 45, 70, 0.68);
+  --glass-edge: rgba(190, 246, 255, 0.38);
+  --glass-shadow: rgba(0, 17, 34, 0.42);
+  --text: #f5ffff;
+  --muted: #b5d5dc;
+  --line: rgba(190, 245, 255, 0.18);
+  --line-hover: rgba(219, 255, 255, 0.42);
+  --lime: #c9ff5b;
+  --violet: #9997ff;
+  --pink: #ff8fc9;
+  --cyan: #52e7ff;
+  --aero-blue: #43bfff;
+  --aero-green: #78ef98;
+  --aero-deep: #064f70;
+  color: var(--text);
+  background:
+    radial-gradient(circle at 14% 2%, rgba(132, 159, 255, 0.22), transparent 32rem),
+    radial-gradient(circle at 92% 18%, rgba(64, 224, 255, 0.18), transparent 34rem),
+    radial-gradient(ellipse at 50% 112%, rgba(91, 225, 126, 0.14), transparent 48rem),
+    linear-gradient(155deg, #03111d 0%, #061f30 48%, #051622 100%);
+  font-family: "Trebuchet MS", "DM Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+body.retro-aero .ambient-photo-carousel {
+  background: #03131e;
+}
+
+body.retro-aero .ambient-photo-layer {
+  filter: blur(88px) saturate(1.12) contrast(0.92) brightness(0.75);
+  transform: scale(1.3) rotate(-1deg);
+}
+
+body.retro-aero .ambient-photo-layer.is-active {
+  opacity: 0.34;
+  transform: scale(1.36) rotate(1deg);
+}
+
+body.retro-aero .ambient-photo-shade {
+  background:
+    radial-gradient(ellipse at 10% 10%, rgba(124, 146, 255, 0.18), transparent 37%),
+    radial-gradient(ellipse at 90% 36%, rgba(70, 227, 255, 0.14), transparent 40%),
+    radial-gradient(ellipse at 28% 105%, rgba(105, 235, 126, 0.15), transparent 43%),
+    linear-gradient(to bottom, rgba(1, 14, 25, 0.30), rgba(2, 21, 34, 0.58));
+}
+
+body.retro-aero .ambient-photo-shade::before,
+body.retro-aero .ambient-photo-shade::after {
+  position: absolute;
+  content: "";
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(55px);
+}
+
+body.retro-aero .ambient-photo-shade::before {
+  left: -9vw;
+  bottom: -24vh;
+  width: 72vw;
+  height: 48vh;
+  background: rgba(67, 210, 117, 0.14);
+  transform: rotate(7deg);
+}
+
+body.retro-aero .ambient-photo-shade::after {
+  right: -12vw;
+  top: -22vh;
+  width: 62vw;
+  height: 42vh;
+  background: rgba(51, 187, 255, 0.14);
+  transform: rotate(-8deg);
+}
+
+body.retro-aero::before {
+  display: block;
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  content: "";
+  opacity: 0.28;
+  background:
+    radial-gradient(circle at 8% 24%, rgba(255,255,255,0.66) 0 2px, rgba(140,232,255,0.22) 3px 7px, transparent 8px),
+    radial-gradient(circle at 89% 12%, rgba(255,255,255,0.54) 0 1px, rgba(140,232,255,0.18) 2px 6px, transparent 7px),
+    radial-gradient(circle at 82% 72%, rgba(255,255,255,0.44) 0 2px, rgba(133,255,188,0.16) 3px 10px, transparent 11px),
+    radial-gradient(circle at 20% 82%, rgba(255,255,255,0.48) 0 1px, rgba(159,159,255,0.16) 2px 8px, transparent 9px),
+    repeating-linear-gradient(0deg, rgba(150,235,255,0.025) 0 1px, transparent 1px 52px),
+    repeating-linear-gradient(90deg, rgba(150,235,255,0.025) 0 1px, transparent 1px 52px);
+  animation: retroAeroField 26s ease-in-out infinite alternate;
+}
+
+body.retro-aero::after {
+  position: fixed;
+  inset: -14%;
+  z-index: 1;
+  pointer-events: none;
+  content: "";
+  background:
+    radial-gradient(ellipse at 24% 26%, rgba(148, 135, 255, 0.15), transparent 28%),
+    radial-gradient(ellipse at 78% 58%, rgba(65, 224, 255, 0.14), transparent 31%),
+    radial-gradient(ellipse at 44% 92%, rgba(111, 239, 145, 0.10), transparent 28%);
+  filter: blur(26px) saturate(1.25);
+  animation: retroAeroDrift 22s ease-in-out infinite alternate;
+}
+
+@keyframes retroAeroField {
+  from { transform: translate3d(-0.5%, -0.4%, 0); }
+  to { transform: translate3d(0.7%, 0.5%, 0); }
+}
+
+@keyframes retroAeroDrift {
+  from { transform: translate3d(-1.3%, -0.7%, 0) scale(1); }
+  to { transform: translate3d(1.2%, 0.9%, 0) scale(1.04); }
+}
+
+body.retro-aero .site-shell {
+  position: relative;
+  z-index: 10;
+}
+
+body.retro-aero .site-header {
+  position: sticky;
+  top: 12px;
+  z-index: 80;
+  min-height: 72px;
+  margin: 10px 0 14px;
+  padding: 10px 14px;
+  background:
+    linear-gradient(180deg, rgba(238, 255, 255, 0.22), rgba(147, 230, 255, 0.08) 42%, rgba(4, 51, 77, 0.48) 100%);
+  border: 1px solid rgba(207, 250, 255, 0.38);
+  border-radius: 22px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.58),
+    inset 0 -2px 0 rgba(0,24,44,0.30),
+    0 14px 38px rgba(0,15,30,0.30);
+  backdrop-filter: blur(26px) saturate(175%) brightness(1.06);
+  -webkit-backdrop-filter: blur(26px) saturate(175%) brightness(1.06);
+}
+
+body.retro-aero .site-header::before {
+  position: absolute;
+  inset: 3px 10px auto;
+  height: 1px;
+  content: "";
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.66), transparent);
+  pointer-events: none;
+}
+
+body.retro-aero .brand {
+  position: relative;
+  gap: 0.72rem;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.35);
+}
+
+body.retro-aero .brand::after {
+  display: inline-flex;
+  align-items: center;
+  min-height: 20px;
+  padding: 0.18rem 0.5rem;
+  color: #dfffd2;
+  background: linear-gradient(180deg, rgba(113,255,137,0.24), rgba(28,135,74,0.14));
+  border: 1px solid rgba(153,255,181,0.28);
+  border-radius: 999px;
+  content: "ONLINE";
+  font-family: var(--font-mono);
+  font-size: 0.54rem;
+  letter-spacing: 0.09em;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.26);
+}
+
+body.retro-aero .brand-mark {
+  color: #07331e;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.82), transparent 34%),
+    linear-gradient(145deg, #e9ff9e, #b9ff4e 52%, #6cd94d);
+  border-color: rgba(238,255,239,0.72);
+  border-radius: 14px 14px 18px 18px;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.76),
+    inset 0 -3px 7px rgba(42,123,38,0.23),
+    0 7px 18px rgba(102,255,107,0.16);
+  transform: rotate(-2deg);
+}
+
+body.retro-aero .brand-name {
+  color: #f1ffff;
+  font-family: "Trebuchet MS", var(--font-sans);
+  letter-spacing: -0.025em;
+}
+
+body.retro-aero .nav-links {
+  gap: 0.45rem;
+}
+
+body.retro-aero .nav-links a {
+  padding: 0.5rem 0.78rem;
+  color: #c6dce2;
+  background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(52,142,177,0.04));
+  border: 1px solid transparent;
+  border-radius: 999px;
+  font-size: 0.88rem;
+  text-shadow: 0 1px 0 rgba(0,0,0,0.30);
+  transition: color 180ms ease, background 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+body.retro-aero .nav-links a:hover,
+body.retro-aero .nav-links a:focus-visible {
+  color: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(218,253,255,0.22), rgba(42,174,221,0.11));
+  border-color: rgba(176,240,255,0.30);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.32), 0 6px 14px rgba(0,24,48,0.16);
+  transform: translateY(-1px);
+}
+
+body.retro-aero .bento-grid {
+  gap: 18px;
+}
+
+body.retro-aero .card {
+  --radius: 28px;
+  background:
+    linear-gradient(180deg, rgba(223, 253, 255, 0.18), rgba(129, 218, 244, 0.07) 22%, rgba(5, 43, 65, 0.18) 76%),
+    linear-gradient(145deg, rgba(39, 160, 207, 0.10), rgba(85, 235, 174, 0.035)),
+    var(--surface);
+  border-color: rgba(192, 243, 255, 0.34);
+  outline: 1px solid rgba(1, 28, 46, 0.68);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+  box-shadow:
+    0 30px 78px rgba(0, 14, 31, 0.34),
+    inset 0 2px 0 rgba(255,255,255,0.34),
+    inset 0 0 0 1px rgba(135,229,255,0.06),
+    inset 0 -18px 32px rgba(0,27,48,0.19),
+    inset 2px 0 0 rgba(222,253,255,0.06);
+  backdrop-filter: blur(34px) saturate(178%) brightness(1.06);
+  -webkit-backdrop-filter: blur(34px) saturate(178%) brightness(1.06);
+  transition:
+    transform 300ms cubic-bezier(.2,.8,.2,1),
+    border-color 260ms ease,
+    box-shadow 300ms ease;
+}
+
+body.retro-aero .card:hover {
+  border-color: rgba(223, 255, 255, 0.56);
+  transform: translateY(-4px);
+  box-shadow:
+    0 36px 88px rgba(0, 15, 35, 0.40),
+    0 0 28px rgba(73, 211, 255, 0.08),
+    inset 0 2px 0 rgba(255,255,255,0.46),
+    inset 0 0 0 1px rgba(167,238,255,0.09),
+    inset 0 -18px 32px rgba(0,27,48,0.17);
+}
+
+body.retro-aero .retro-aero-layer {
+  position: absolute !important;
+  inset: 2px;
+  z-index: 1 !important;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: calc(var(--radius) - 2px);
+  opacity: 0.50;
+  background:
+    radial-gradient(circle at var(--bubble-x1, 18%) var(--bubble-y1, 22%), rgba(255,255,255,0.34) 0 2px, rgba(112,228,255,0.12) 3px 10px, transparent 11px),
+    radial-gradient(circle at var(--bubble-x2, 82%) var(--bubble-y2, 18%), rgba(255,255,255,0.26) 0 1px, rgba(148,255,194,0.10) 2px 8px, transparent 9px),
+    radial-gradient(circle at var(--bubble-x3, 72%) var(--bubble-y3, 82%), rgba(255,255,255,0.20) 0 2px, rgba(158,151,255,0.09) 3px 12px, transparent 13px),
+    linear-gradient(156deg, rgba(255,255,255,0.14), transparent 19% 74%, rgba(77,217,255,0.06));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.30),
+    inset 0 -1px 0 rgba(0,24,46,0.18);
+  mix-blend-mode: screen;
+}
+
+body.retro-aero .retro-aero-layer::before {
+  position: absolute;
+  top: 12px;
+  left: 16px;
+  width: 38%;
+  height: 42%;
+  content: "";
+  border-radius: 48% 52% 58% 42%;
+  background: radial-gradient(ellipse at 30% 22%, rgba(255,255,255,0.18), transparent 68%);
+  filter: blur(7px);
+  opacity: 0.8;
+  transform: rotate(-7deg);
+}
+
+body.retro-aero .retro-aero-layer::after {
+  position: absolute;
+  width: 170px;
+  height: 120px;
+  left: calc(var(--mouse-x) - 85px);
+  top: calc(var(--mouse-y) - 60px);
+  content: "";
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.23), rgba(143,233,255,0.07) 35%, transparent 70%);
+  filter: blur(8px);
+  opacity: 0;
+  transition: opacity 220ms ease;
+}
+
+body.retro-aero .card.is-pointer-active .retro-aero-layer::after,
+body.retro-aero .card:focus-visible .retro-aero-layer::after {
+  opacity: 0.9;
+}
+
+body.retro-aero .card > *:not(.retro-aero-layer):not(.retro-window-bar) {
+  z-index: 2;
+}
+
+body.retro-aero h1,
+body.retro-aero h2 {
+  font-family: "Trebuchet MS", "Arial Rounded MT Bold", var(--font-sans);
+  font-weight: 700;
+  letter-spacing: -0.052em;
+  text-shadow: 0 2px 0 rgba(0, 20, 37, 0.32), 0 0 30px rgba(127, 231, 255, 0.04);
+}
+
+body.retro-aero .hero-card {
+  background:
+    radial-gradient(ellipse at 15% 5%, rgba(255,255,255,0.19), transparent 24%),
+    radial-gradient(ellipse at 92% 22%, rgba(75,220,255,0.16), transparent 34%),
+    radial-gradient(ellipse at 22% 104%, rgba(109,234,139,0.12), transparent 37%),
+    linear-gradient(145deg, rgba(77, 95, 187, 0.17), rgba(12, 78, 106, 0.28) 48%, rgba(5, 33, 55, 0.44)),
+    var(--surface-strong);
+}
+
+body.retro-aero .card-noise {
+  opacity: 0.26;
+  background-image:
+    radial-gradient(circle, rgba(194,246,255,0.16) 0 1px, transparent 1.5px),
+    linear-gradient(rgba(145,228,255,0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(145,228,255,0.026) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+  mask-image: linear-gradient(to bottom, black, transparent 82%);
+}
+
+body.retro-aero .hero-card h1 span {
+  color: #bfe5ea;
+  text-shadow: 0 2px 0 rgba(0,20,37,0.30);
+}
+
+body.retro-aero .hero-summary,
+body.retro-aero .card p:not(.eyebrow) {
+  color: #c8e2e7;
+}
+
+body.retro-aero .eyebrow {
+  color: #c8f4fa;
+  text-shadow: 0 0 12px rgba(87,224,255,0.18);
+}
+
+body.retro-aero .status-dot {
+  background: #c8ff5d;
+  box-shadow:
+    0 0 0 5px rgba(201,255,91,0.10),
+    0 0 16px rgba(201,255,91,0.40);
+  animation: retroStatusPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes retroStatusPulse {
+  0%, 100% { transform: scale(1); opacity: 0.92; }
+  50% { transform: scale(1.18); opacity: 1; }
+}
+
+body.retro-aero .hero-code {
+  padding: 0.44rem 0.58rem;
+  color: rgba(218,244,247,0.52);
+  background:
+    linear-gradient(180deg, rgba(238,255,255,0.13), rgba(20,91,122,0.08));
+  border: 1px solid rgba(190,244,255,0.16);
+  border-radius: 12px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.17);
+}
+
+body.retro-aero .hero-code code {
+  color: #d8ff6b;
+  background: rgba(2,28,45,0.52);
+  border-color: rgba(210,255,111,0.26);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+body.retro-aero .button {
+  min-height: 49px;
+  border-width: 1px;
+  box-shadow:
+    inset 0 2px 0 rgba(255,255,255,0.45),
+    inset 0 -3px 7px rgba(0,31,52,0.18),
+    0 8px 18px rgba(0,16,31,0.18);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.18);
+}
+
+body.retro-aero .button-primary {
+  color: #093720;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.66), transparent 36%),
+    linear-gradient(180deg, #ddff8c, #aef24e 58%, #6ed34b);
+  border-color: rgba(235,255,205,0.80);
+}
+
+body.retro-aero .button-primary:hover {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.78), transparent 38%),
+    linear-gradient(180deg, #ecffa9, #bdff5d 58%, #7ce25a);
+}
+
+body.retro-aero .button-secondary {
+  color: #efffff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(92,198,232,0.11) 44%, rgba(5,65,94,0.24));
+  border-color: rgba(180,240,255,0.28);
+}
+
+body.retro-aero .portrait-card {
+  background:
+    radial-gradient(ellipse at 50% 14%, rgba(104,225,255,0.20), transparent 35%),
+    linear-gradient(145deg, rgba(75,154,187,0.18), rgba(4,31,49,0.56));
+}
+
+body.retro-aero .portrait-card::after {
+  background:
+    linear-gradient(to top, rgba(1,20,33,0.82), rgba(3,41,61,0.12) 48%, transparent 72%),
+    linear-gradient(145deg, rgba(255,255,255,0.15), transparent 31%);
+}
+
+body.retro-aero .portrait-caption,
+body.retro-aero .company-chip,
+body.retro-aero .mini-stats div,
+body.retro-aero .tag-list span,
+body.retro-aero .history-logo-wrap,
+body.retro-aero .round-arrow {
+  background:
+    linear-gradient(180deg, rgba(241,255,255,0.20), rgba(115,213,241,0.08) 45%, rgba(2,46,70,0.28));
+  border-color: rgba(194,245,255,0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.40),
+    inset 0 -2px 6px rgba(0,30,50,0.16),
+    0 8px 20px rgba(0,18,33,0.14);
+  backdrop-filter: blur(22px) saturate(165%);
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+}
+
+body.retro-aero .section-heading {
+  align-items: center;
+  padding-bottom: 0.82rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid rgba(179,235,246,0.16);
+}
+
+body.retro-aero .card-index {
+  display: inline-grid;
+  min-width: 30px;
+  min-height: 25px;
+  place-items: center;
+  color: #c8eef3;
+  background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(28,128,164,0.07));
+  border: 1px solid rgba(179,235,246,0.15);
+  border-radius: 8px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+}
+
+body.retro-aero .work-card {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(188,255,115,0.13), transparent 31%),
+    radial-gradient(ellipse at 94% 80%, rgba(67,214,255,0.11), transparent 36%),
+    linear-gradient(145deg, rgba(34,117,126,0.17), rgba(5,44,64,0.45)),
+    var(--surface);
+}
+
+body.retro-aero .company-chip img {
+  background:
+    linear-gradient(180deg, #ffffff, #e8f4fa);
+  border: 1px solid rgba(255,255,255,0.82);
+  box-shadow: inset 0 1px 0 #fff, 0 5px 12px rgba(0,20,40,0.16);
+}
+
+body.retro-aero .company-label,
+body.retro-aero .mini-stats strong {
+  color: #f1ffff;
+}
+
+body.retro-aero .company-role,
+body.retro-aero .mini-stats span,
+body.retro-aero .history-role {
+  color: #a9d1d9;
+}
+
+body.retro-aero .tag-list span {
+  color: #d8f6fa;
+  border-radius: 10px;
+}
+
+body.retro-aero .focus-list li {
+  color: #d9f0f3;
+  border-color: rgba(179,235,246,0.15);
+}
+
+body.retro-aero .focus-list li::after {
+  align-self: center;
+  color: rgba(180,242,255,0.38);
+  content: "›";
+  font-family: var(--font-mono);
+}
+
+body.retro-aero .focus-list li {
+  grid-template-columns: 2.2rem 1fr auto;
+}
+
+body.retro-aero .focus-list li span {
+  color: #ccff69;
+}
+
+body.retro-aero .history-card {
+  background:
+    radial-gradient(ellipse at 12% 7%, rgba(78,155,255,0.18), transparent 36%),
+    linear-gradient(150deg, rgba(30,102,157,0.20), rgba(4,40,65,0.47)),
+    var(--surface);
+}
+
+body.retro-aero .history-logo-wrap {
+  border-radius: 24px 24px 18px 18px;
+}
+
+body.retro-aero .education-card {
+  background:
+    radial-gradient(ellipse at 80% 16%, rgba(165,154,255,0.14), transparent 38%),
+    linear-gradient(145deg, rgba(37,111,142,0.15), rgba(4,42,63,0.47)),
+    var(--surface);
+}
+
+body.retro-aero .education-mark {
+  -webkit-text-stroke-color: rgba(152,235,255,0.13);
+  transform: rotate(-5deg);
+}
+
+body.retro-aero .photo-card {
+  border-color: rgba(221,252,255,0.40);
+  box-shadow:
+    0 30px 78px rgba(0,14,31,0.36),
+    inset 0 2px 0 rgba(255,255,255,0.42),
+    inset 0 -20px 38px rgba(0,24,41,0.22);
+}
+
+body.retro-aero .photo-card::before {
+  background:
+    linear-gradient(to top, rgba(0,21,34,0.92), rgba(3,40,55,0.08) 70%),
+    linear-gradient(145deg, rgba(255,255,255,0.16), transparent 35%);
+}
+
+body.retro-aero .round-arrow {
+  color: #efffff;
+  border-radius: 50%;
+}
+
+body.retro-aero .photo-card:hover .round-arrow {
+  color: #063720;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.70), transparent 36%),
+    linear-gradient(180deg, #dfff8d, #8bec55);
+}
+
+body.retro-aero .interests-card {
+  background:
+    radial-gradient(ellipse at 10% 70%, rgba(107,236,145,0.12), transparent 31%),
+    radial-gradient(ellipse at 90% 18%, rgba(77,214,255,0.13), transparent 36%),
+    linear-gradient(145deg, rgba(24,91,118,0.16), rgba(5,41,62,0.44)),
+    var(--surface);
+}
+
+body.retro-aero .ticker span {
+  color: #efffff;
+  text-shadow: 0 2px 0 rgba(0,28,45,0.32), 0 0 24px rgba(106,224,255,0.05);
+  animation: retroTickerFloat 7s ease-in-out infinite;
+}
+
+body.retro-aero .ticker span:nth-child(2) { animation-delay: -1.4s; }
+body.retro-aero .ticker span:nth-child(3) { animation-delay: -2.8s; }
+body.retro-aero .ticker span:nth-child(4) { animation-delay: -4.2s; }
+body.retro-aero .ticker span:nth-child(5) { animation-delay: -5.6s; }
+
+body.retro-aero .ticker span:not(:last-child)::after {
+  color: #8ff5ff;
+  content: "✦";
+  text-shadow: 0 0 12px rgba(91,231,255,0.34);
+}
+
+@keyframes retroTickerFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+body.retro-aero .contact-card {
+  background:
+    radial-gradient(ellipse at 6% 92%, rgba(151,142,255,0.19), transparent 37%),
+    radial-gradient(ellipse at 94% 18%, rgba(76,224,255,0.17), transparent 34%),
+    radial-gradient(ellipse at 62% 112%, rgba(108,235,141,0.10), transparent 32%),
+    linear-gradient(145deg, rgba(34,103,133,0.16), rgba(4,38,59,0.50)),
+    var(--surface-strong);
+}
+
+body.retro-aero .contact-links a {
+  color: #d5eff3;
+  border-color: rgba(179,235,246,0.16);
+}
+
+body.retro-aero .contact-links a:hover {
+  color: #d6ff72;
+}
+
+body.retro-aero .site-footer {
+  margin-top: 0.4rem;
+  padding: 1.1rem 1rem 1.5rem;
+  color: #7fa5ae;
+  border-top: 1px dashed rgba(147,221,237,0.16);
+}
+
+/* Photography page */
+body.retro-photo {
+  background:
+    radial-gradient(ellipse at 16% 12%, rgba(121,143,255,0.20), transparent 34rem),
+    radial-gradient(ellipse at 88% 78%, rgba(69,223,255,0.16), transparent 36rem),
+    #03131f;
+}
+
+body.retro-photo::before {
+  opacity: 0.20;
+  background:
+    radial-gradient(circle at 12% 22%, rgba(255,255,255,0.66) 0 2px, rgba(123,229,255,0.18) 3px 9px, transparent 10px),
+    radial-gradient(circle at 84% 20%, rgba(255,255,255,0.48) 0 1px, rgba(155,255,197,0.15) 2px 7px, transparent 8px),
+    repeating-linear-gradient(0deg, rgba(151,231,248,0.028) 0 1px, transparent 1px 46px),
+    repeating-linear-gradient(90deg, rgba(151,231,248,0.028) 0 1px, transparent 1px 46px);
+}
+
+body.retro-photo .gallery-header {
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  padding: 0.82rem 1rem;
+  background:
+    linear-gradient(180deg, rgba(237,255,255,0.22), rgba(88,195,229,0.08) 44%, rgba(3,47,70,0.52));
+  border: 1px solid rgba(193,245,255,0.34);
+  border-radius: 20px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.50),
+    inset 0 -2px 0 rgba(0,25,43,0.25),
+    0 12px 32px rgba(0,14,28,0.28);
+  backdrop-filter: blur(24px) saturate(175%);
+  -webkit-backdrop-filter: blur(24px) saturate(175%);
+}
+
+body.retro-photo .gallery-header p,
+body.retro-photo .back-link {
+  color: #c7e8ee;
+}
+
+body.retro-photo .back-link {
+  padding: 0.34rem 0.56rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.10), rgba(34,130,163,0.06));
+  border: 1px solid rgba(187,241,255,0.15);
+  border-radius: 999px;
+}
+
+body.retro-photo .aurora-background {
+  opacity: 0.98;
+  filter: blur(50px) saturate(178%) contrast(1.08);
+}
+
+body.retro-photo .aurora-background::after {
+  background: radial-gradient(circle at center, transparent 9%, rgba(2,18,29,0.04) 66%, rgba(2,15,25,0.35) 100%);
+}
+
+body.retro-photo .gallery-stage::before {
+  background-image:
+    radial-gradient(circle, rgba(186,245,255,0.11) 0 1px, transparent 1.5px),
+    linear-gradient(rgba(184,241,255,0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(184,241,255,0.025) 1px, transparent 1px);
+  background-size: 23px 23px, 46px 46px, 46px 46px;
+}
+
+body.retro-photo .gallery-intro h1 {
+  font-family: "Trebuchet MS", "Arial Rounded MT Bold", var(--font-sans);
+  letter-spacing: -0.065em;
+  text-shadow: 0 3px 0 rgba(0,22,38,0.34), 0 0 38px rgba(112,224,255,0.08);
+}
+
+body.retro-photo .gallery-intro > p:last-of-type {
+  color: #bdd9df;
+}
+
+body.retro-photo .intro-timer {
+  background:
+    linear-gradient(180deg, rgba(239,255,255,0.20), rgba(84,190,224,0.08) 48%, rgba(2,43,65,0.40));
+  border-color: rgba(192,245,255,0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.44),
+    inset 0 -2px 0 rgba(0,25,43,0.18),
+    0 15px 34px rgba(0,13,27,0.28);
+}
+
+body.retro-photo .timer-bar {
+  height: 5px;
+  background: rgba(0,34,54,0.44);
+  border: 1px solid rgba(207,250,255,0.16);
+  box-shadow: inset 0 1px 2px rgba(0,0,0,0.32);
+}
+
+body.retro-photo .timer-bar i {
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.74), transparent 44%),
+    linear-gradient(90deg, #cfff65, #55e8ff, #9d91ff);
+  box-shadow: 0 0 12px rgba(88,229,255,0.20);
+}
+
+body.retro-photo .trail-image {
+  padding: 4px;
+  background: linear-gradient(180deg, #f8ffff, #c9edf3);
+  border: 1px solid rgba(255,255,255,0.92);
+  border-radius: 13px;
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 30px 72px rgba(0,11,24,0.48),
+    0 0 0 1px rgba(83,205,237,0.13);
+}
+
+body.retro-photo .counter {
+  padding: 0.42rem 0.62rem;
+  color: #a9ccd4;
+  background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(49,155,189,0.08));
+  border: 1px solid rgba(187,240,255,0.16);
+  border-radius: 999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+body.retro-photo #counter-current {
+  color: #d8ff70;
+}
+
+body.retro-photo .retro-spark {
+  position: absolute;
+  z-index: 2;
+  width: var(--spark-size, 8px);
+  height: var(--spark-size, 8px);
+  left: var(--spark-x, 50%);
+  top: var(--spark-y, 50%);
+  pointer-events: none;
+  opacity: var(--spark-opacity, 0.34);
+  animation: retroSparkle var(--spark-speed, 5s) ease-in-out infinite;
+  animation-delay: var(--spark-delay, 0s);
+}
+
+body.retro-photo .retro-spark::before,
+body.retro-photo .retro-spark::after {
+  position: absolute;
+  content: "";
+  background: rgba(222,255,255,0.78);
+  border-radius: 999px;
+  box-shadow: 0 0 10px rgba(111,230,255,0.34);
+}
+
+body.retro-photo .retro-spark::before {
+  width: 100%;
+  height: 1px;
+  top: 50%;
+}
+
+body.retro-photo .retro-spark::after {
+  width: 1px;
+  height: 100%;
+  left: 50%;
+}
+
+@keyframes retroSparkle {
+  0%, 100% { transform: scale(0.65) rotate(0); opacity: 0.10; }
+  50% { transform: scale(1.15) rotate(45deg); opacity: var(--spark-opacity, 0.34); }
+}
+
+@media (max-width: 760px) {
+  body.retro-aero .site-header {
+    top: 8px;
+    min-height: 66px;
+    margin-top: 7px;
+    padding: 8px 10px;
+    border-radius: 19px;
+  }
+
+  body.retro-aero .brand::after {
+    display: none;
+  }
+
+  body.retro-aero .nav-links {
+    gap: 0.24rem;
+  }
+
+  body.retro-aero .nav-links a {
+    padding: 0.42rem 0.58rem;
+    font-size: 0.82rem;
+  }
+
+  body.retro-aero .card {
+    --radius: 23px;
+    border-radius: var(--radius);
+  }
+
+  body.retro-aero .retro-aero-layer {
+    border-radius: calc(var(--radius) - 2px);
+  }
+
+  body.retro-aero .ticker span {
+    animation: none;
+  }
+
+  body.retro-photo .gallery-header {
+    top: 8px;
+    left: 8px;
+    right: 8px;
+    border-radius: 17px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.retro-aero::before,
+  body.retro-aero::after,
+  body.retro-aero .status-dot,
+  body.retro-aero .ticker span,
+  body.retro-photo .retro-spark {
+    animation: none !important;
+  }
+}
+
+/* Keep the current portrait crop visually centered inside the retro frame. */
+body.retro-aero .portrait-card img {
+  object-position: 72% 72%;
+}
+
+/* ================================================================
+   RETRO FUTURE v2
+   Late-90s / early-2000s web UI filtered through industrial CRT tech.
+   Scoped to .retro-terminal so the earlier aero edition remains intact.
+   ================================================================ */
+
+body.retro-terminal {
+  --terminal-bg: #071015;
+  --terminal-panel: rgba(8, 23, 29, 0.76);
+  --terminal-panel-2: rgba(12, 35, 43, 0.72);
+  --terminal-line: rgba(151, 205, 211, 0.26);
+  --terminal-line-hot: rgba(208, 250, 244, 0.52);
+  --terminal-green: #baff64;
+  --terminal-cyan: #69e5ed;
+  --terminal-blue: #6c8dff;
+  --terminal-amber: #ffc86b;
+  --terminal-muted: #9cb1b5;
+  --terminal-ink: #eef8f5;
+  color: var(--terminal-ink);
+  background:
+    radial-gradient(circle at 14% 3%, rgba(97, 84, 190, 0.18), transparent 31rem),
+    radial-gradient(circle at 88% 24%, rgba(38, 143, 161, 0.14), transparent 34rem),
+    linear-gradient(135deg, #05080d 0%, #08131a 47%, #071015 100%);
+  font-family: Tahoma, Verdana, "Trebuchet MS", "DM Sans", sans-serif;
+}
+
+body.retro-terminal::before {
+  z-index: 3;
+  opacity: 0.30;
+  background:
+    repeating-linear-gradient(0deg, rgba(184, 227, 222, 0.027) 0 1px, transparent 1px 4px),
+    repeating-linear-gradient(90deg, rgba(131, 189, 192, 0.022) 0 1px, transparent 1px 68px),
+    radial-gradient(circle at 11% 20%, rgba(186,255,223,0.58) 0 1px, rgba(117,238,224,0.14) 2px 5px, transparent 6px),
+    radial-gradient(circle at 91% 75%, rgba(255,209,121,0.42) 0 1px, rgba(255,180,93,0.10) 2px 5px, transparent 6px);
+  animation: terminalScanDrift 18s linear infinite alternate;
+}
+
+body.retro-terminal::after {
+  z-index: 2;
+  opacity: 0.9;
+  background:
+    linear-gradient(90deg, transparent 0 49.85%, rgba(91,227,236,0.035) 50%, transparent 50.15%),
+    radial-gradient(ellipse at 20% 15%, rgba(111, 91, 215, 0.16), transparent 30%),
+    radial-gradient(ellipse at 85% 64%, rgba(42, 177, 188, 0.13), transparent 34%),
+    radial-gradient(ellipse at 44% 102%, rgba(168, 255, 95, 0.07), transparent 29%);
+  filter: blur(18px) saturate(1.12);
+  animation: terminalAmbient 25s ease-in-out infinite alternate;
+}
+
+@keyframes terminalScanDrift {
+  from { transform: translate3d(0, -3px, 0); }
+  to { transform: translate3d(0, 3px, 0); }
+}
+
+@keyframes terminalAmbient {
+  from { transform: translate3d(-0.7%, -0.4%, 0) scale(1); }
+  to { transform: translate3d(0.8%, 0.5%, 0) scale(1.025); }
+}
+
+body.retro-terminal .ambient-photo-layer {
+  filter: blur(104px) saturate(0.86) contrast(1.02) brightness(0.54);
+}
+
+body.retro-terminal .ambient-photo-layer.is-active {
+  opacity: 0.27;
+}
+
+body.retro-terminal .ambient-photo-shade {
+  background:
+    linear-gradient(180deg, rgba(4, 8, 12, 0.30), rgba(3, 12, 16, 0.64)),
+    repeating-linear-gradient(90deg, transparent 0 95px, rgba(83,183,190,0.025) 96px);
+}
+
+body.retro-terminal .site-header {
+  top: 10px;
+  min-height: 66px;
+  margin-top: 9px;
+  padding: 8px 10px;
+  background:
+    linear-gradient(180deg, rgba(203, 224, 225, 0.21), rgba(70, 102, 108, 0.12) 42%, rgba(8, 26, 32, 0.88) 44%, rgba(5, 17, 22, 0.90));
+  border: 1px solid rgba(185, 222, 224, 0.38);
+  border-radius: 11px;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.42),
+    inset 0 -1px 0 rgba(0,0,0,0.72),
+    0 10px 30px rgba(0,0,0,0.34);
+}
+
+body.retro-terminal .site-header::after {
+  position: absolute;
+  left: 14px;
+  bottom: 5px;
+  color: rgba(178, 218, 218, 0.45);
+  content: "AARON-NET // PERSONAL HOMEPAGE // SECURE CONNECTION";
+  font-family: var(--font-mono);
+  font-size: 0.46rem;
+  letter-spacing: 0.08em;
+  pointer-events: none;
+}
+
+body.retro-terminal .brand::after {
+  color: #dfffc4;
+  background: #17311d;
+  border-color: rgba(168,255,113,0.32);
+  border-radius: 4px;
+  content: "AIM: ONLINE";
+  box-shadow: inset 0 0 8px rgba(133,255,95,0.09);
+}
+
+body.retro-terminal .brand-mark {
+  color: #07160d;
+  background:
+    linear-gradient(180deg, #eaff9e, #b9f65b 54%, #6bb936 55%, #8bd44b);
+  border-color: rgba(236,255,205,0.80);
+  border-radius: 7px;
+  box-shadow:
+    inset 1px 1px 0 rgba(255,255,255,0.82),
+    inset -1px -1px 0 rgba(33,79,24,0.68),
+    0 0 16px rgba(173,255,92,0.10);
+  transform: none;
+}
+
+body.retro-terminal .brand-name {
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 0.92rem;
+  letter-spacing: -0.02em;
+}
+
+body.retro-terminal .nav-links {
+  gap: 2px;
+}
+
+body.retro-terminal .nav-links a {
+  padding: 0.54rem 0.78rem;
+  color: #c1d0d2;
+  background:
+    linear-gradient(180deg, rgba(221,236,237,0.16), rgba(69,94,99,0.10) 48%, rgba(5,18,23,0.42) 50%);
+  border: 1px solid rgba(151,188,190,0.16);
+  border-radius: 4px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 0.82rem;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.12), inset -1px -1px 0 rgba(0,0,0,0.40);
+}
+
+body.retro-terminal .nav-links a:hover,
+body.retro-terminal .nav-links a:focus-visible {
+  color: #f6fffd;
+  background:
+    linear-gradient(180deg, rgba(112, 172, 187, 0.34), rgba(21, 68, 79, 0.32) 48%, rgba(6, 30, 38, 0.72) 50%);
+  border-color: rgba(104,229,237,0.38);
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.22), inset -1px -1px 0 rgba(0,0,0,0.54), 0 0 14px rgba(81,220,232,0.08);
+  transform: none;
+}
+
+body.retro-terminal .bento-grid {
+  gap: 14px;
+}
+
+body.retro-terminal .card {
+  --radius: 15px;
+  background:
+    linear-gradient(180deg, rgba(170, 205, 207, 0.10), rgba(15, 37, 44, 0.04) 28%, rgba(3, 14, 19, 0.30)),
+    linear-gradient(135deg, rgba(78, 114, 127, 0.10), rgba(9, 26, 32, 0.46)),
+    var(--terminal-panel);
+  border: 1px solid rgba(151, 198, 201, 0.34);
+  outline: 1px solid rgba(0,0,0,0.72);
+  outline-offset: -2px;
+  border-radius: var(--radius);
+  box-shadow:
+    0 22px 56px rgba(0, 0, 0, 0.34),
+    inset 1px 1px 0 rgba(229, 250, 248, 0.20),
+    inset -1px -1px 0 rgba(0,0,0,0.62),
+    inset 0 24px 36px rgba(172, 216, 216, 0.025);
+  backdrop-filter: blur(28px) saturate(145%) brightness(1.01);
+  -webkit-backdrop-filter: blur(28px) saturate(145%) brightness(1.01);
+}
+
+body.retro-terminal .card:hover {
+  border-color: rgba(162, 236, 238, 0.54);
+  transform: translateY(-3px);
+  box-shadow:
+    0 26px 68px rgba(0, 0, 0, 0.40),
+    0 0 22px rgba(91, 227, 236, 0.07),
+    inset 1px 1px 0 rgba(234,255,253,0.28),
+    inset -1px -1px 0 rgba(0,0,0,0.66);
+}
+
+body.retro-terminal .retro-aero-layer {
+  inset: 2px;
+  border-radius: calc(var(--radius) - 2px);
+  opacity: 0.34;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.08), transparent 18%),
+    repeating-linear-gradient(0deg, rgba(119,213,218,0.026) 0 1px, transparent 1px 4px);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.18);
+}
+
+body.retro-terminal .retro-aero-layer::before {
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: auto;
+  height: 28%;
+  border-radius: 0;
+  background: linear-gradient(180deg, transparent, rgba(74,229,233,0.035));
+  filter: none;
+  opacity: 1;
+  transform: none;
+}
+
+body.retro-terminal .retro-aero-layer::after {
+  background: radial-gradient(ellipse, rgba(225,255,251,0.22), rgba(93,224,231,0.08) 34%, transparent 70%);
+}
+
+body.retro-terminal .retro-window-bar {
+  position: absolute !important;
+  top: 6px;
+  left: 7px;
+  right: 7px;
+  z-index: 8 !important;
+  display: flex;
+  height: 23px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 7px;
+  color: rgba(203, 229, 229, 0.68);
+  background:
+    linear-gradient(180deg, rgba(186,215,216,0.17), rgba(41,69,74,0.10) 48%, rgba(3,16,21,0.52) 50%);
+  border: 1px solid rgba(146,184,185,0.15);
+  border-radius: calc(var(--radius) - 7px) calc(var(--radius) - 7px) 3px 3px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10), inset 0 -1px 0 rgba(0,0,0,0.44);
+  font-family: var(--font-mono);
+  font-size: 0.50rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+body.retro-terminal .retro-window-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+body.retro-terminal .retro-window-controls i {
+  display: block;
+  width: 7px;
+  height: 7px;
+  background: #334348;
+  border: 1px solid rgba(210,236,235,0.22);
+  border-radius: 1px;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.08), inset -1px -1px 0 rgba(0,0,0,0.5);
+}
+
+body.retro-terminal .retro-window-controls i:first-child { background: #617b80; }
+body.retro-terminal .retro-window-controls i:nth-child(2) { background: #9e813c; }
+body.retro-terminal .retro-window-controls i:last-child { background: #486f45; }
+
+body.retro-terminal h1,
+body.retro-terminal h2 {
+  color: #f0f6f3;
+  font-family: Arial, Helvetica, Tahoma, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.046em;
+  text-shadow: 1px 1px 0 #000, 0 0 22px rgba(107,224,229,0.025);
+}
+
+body.retro-terminal .hero-card h1 span {
+  color: #afc1c3;
+}
+
+body.retro-terminal .eyebrow,
+body.retro-terminal .card-index,
+body.retro-terminal .mini-stats span,
+body.retro-terminal .company-role,
+body.retro-terminal .history-role {
+  color: #91abad;
+  font-family: var(--font-mono);
+  text-shadow: none;
+}
+
+body.retro-terminal .eyebrow {
+  letter-spacing: 0.12em;
+}
+
+body.retro-terminal .status-dot {
+  background: var(--terminal-green);
+  border-radius: 1px;
+  box-shadow: 0 0 0 3px rgba(186,255,100,0.08), 0 0 10px rgba(186,255,100,0.30);
+}
+
+body.retro-terminal .hero-card {
+  background:
+    linear-gradient(90deg, rgba(117, 89, 202, 0.13), transparent 44%),
+    radial-gradient(ellipse at 86% 86%, rgba(53, 185, 196, 0.10), transparent 42%),
+    linear-gradient(145deg, rgba(16, 36, 45, 0.80), rgba(4, 15, 21, 0.88));
+}
+
+body.retro-terminal .card-noise {
+  opacity: 0.22;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(161,214,215,0.045) 0 1px, transparent 1px 5px),
+    repeating-linear-gradient(90deg, rgba(161,214,215,0.018) 0 1px, transparent 1px 66px);
+  background-size: auto;
+}
+
+body.retro-terminal .hero-code {
+  color: #7f9294;
+  background: #071116;
+  border-color: rgba(126,176,179,0.24);
+  border-radius: 3px;
+  box-shadow: inset 0 0 13px rgba(89,224,229,0.035);
+}
+
+body.retro-terminal .hero-code code {
+  color: var(--terminal-green);
+  background: #07120d;
+  border-color: rgba(186,255,100,0.24);
+  border-radius: 2px;
+}
+
+body.retro-terminal .button {
+  min-height: 46px;
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.38), inset -1px -1px 0 rgba(0,0,0,0.52), 0 5px 12px rgba(0,0,0,0.22);
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+body.retro-terminal .button-primary {
+  color: #142007;
+  background: linear-gradient(180deg, #e5ff9a, #b7ef57 49%, #76aa2f 51%, #9acc43);
+  border-color: #dffca3;
+}
+
+body.retro-terminal .button-secondary {
+  color: #e8f4f1;
+  background: linear-gradient(180deg, #53666a, #34474b 49%, #17282e 51%, #273b40);
+  border-color: rgba(179,213,214,0.42);
+}
+
+body.retro-terminal .section-heading {
+  border-bottom-style: dotted;
+  border-bottom-color: rgba(120,179,181,0.23);
+}
+
+body.retro-terminal .card-index {
+  min-width: 34px;
+  color: var(--terminal-amber);
+  background: #0b1215;
+  border-color: rgba(255,200,107,0.22);
+  border-radius: 2px;
+  box-shadow: inset 0 0 9px rgba(255,180,74,0.035);
+}
+
+body.retro-terminal .portrait-card {
+  background:
+    linear-gradient(180deg, rgba(108,147,151,0.10), rgba(4,14,18,0.68)),
+    #071116;
+}
+
+body.retro-terminal .portrait-halo {
+  inset: -8%;
+  width: 116%;
+  height: 116%;
+  aspect-ratio: auto;
+  left: -8%;
+  top: -8%;
+  transform: none;
+  background-image:
+    linear-gradient(rgba(2,10,14,0.50), rgba(2,10,14,0.58)),
+    url("your-picture.jpg");
+  background-size: cover;
+  background-position: center;
+  border-radius: 0;
+  filter: blur(30px) saturate(0.72) brightness(0.62);
+  opacity: 0.74;
+}
+
+body.retro-terminal .portrait-card img {
+  inset: 31px 11px 10px;
+  width: calc(100% - 22px);
+  height: calc(100% - 41px);
+  object-fit: cover;
+  object-position: 50% 50%;
+  background: rgba(3, 12, 17, 0.42);
+  border: 1px solid rgba(178,218,219,0.26);
+  border-radius: 5px;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.42), 0 0 24px rgba(0,0,0,0.18);
+  filter: saturate(0.92) contrast(1.02);
+}
+
+body.retro-terminal .portrait-card:hover img {
+  transform: none;
+  filter: saturate(1) contrast(1.035);
+}
+
+body.retro-terminal .portrait-card::after {
+  background:
+    linear-gradient(to top, rgba(1,8,12,0.76), transparent 36%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(216,255,251,0.018) 3px 4px);
+}
+
+body.retro-terminal .portrait-caption,
+body.retro-terminal .company-chip,
+body.retro-terminal .mini-stats div,
+body.retro-terminal .tag-list span,
+body.retro-terminal .history-logo-wrap,
+body.retro-terminal .round-arrow {
+  background: linear-gradient(180deg, rgba(119,151,154,0.20), rgba(20,42,48,0.42) 48%, rgba(5,15,20,0.76) 50%);
+  border-color: rgba(149,191,192,0.28);
+  border-radius: 5px;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.14), inset -1px -1px 0 rgba(0,0,0,0.50), 0 7px 15px rgba(0,0,0,0.16);
+}
+
+body.retro-terminal .portrait-caption {
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  font-family: var(--font-mono);
+}
+
+body.retro-terminal .portrait-caption strong {
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+body.retro-terminal .company-chip {
+  position: relative;
+  padding-right: 2.3rem;
+}
+
+body.retro-terminal .company-chip::after {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  content: "";
+  background: var(--terminal-green);
+  border-radius: 1px;
+  box-shadow: 0 0 9px rgba(186,255,100,0.28);
+  transform: translateY(-50%);
+}
+
+body.retro-terminal .mini-stats div {
+  position: relative;
+  overflow: hidden;
+}
+
+body.retro-terminal .mini-stats div::before {
+  display: block;
+  width: 22px;
+  height: 3px;
+  margin-bottom: 0.55rem;
+  content: "";
+  background: linear-gradient(90deg, var(--terminal-cyan), transparent);
+}
+
+body.retro-terminal .tag-list span {
+  color: #c9dcda;
+  border-radius: 3px;
+  font-family: Tahoma, Verdana, sans-serif;
+  font-size: 0.75rem;
+}
+
+body.retro-terminal .focus-list li {
+  border-color: rgba(132,177,178,0.20);
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+body.retro-terminal .focus-list li::after {
+  color: var(--terminal-green);
+  content: "READY";
+  font-size: 0.55rem;
+  letter-spacing: 0.08em;
+}
+
+body.retro-terminal .history-logo-wrap {
+  border-radius: 6px;
+}
+
+body.retro-terminal .education-mark {
+  -webkit-text-stroke-color: rgba(105,226,231,0.10);
+  font-family: Arial Black, Arial, sans-serif;
+}
+
+body.retro-terminal .photo-card {
+  border-radius: var(--radius);
+}
+
+body.retro-terminal .photo-card::before {
+  background:
+    linear-gradient(to top, rgba(2,10,14,0.94), rgba(2,15,20,0.08) 70%),
+    repeating-linear-gradient(0deg, transparent 0 3px, rgba(220,255,252,0.018) 3px 4px);
+}
+
+body.retro-terminal .round-arrow {
+  color: var(--terminal-green);
+  border-radius: 4px;
+}
+
+body.retro-terminal .photo-card:hover .round-arrow {
+  color: #132108;
+  background: linear-gradient(180deg, #e5ff9a, #b7ef57 49%, #76aa2f 51%, #9acc43);
+}
+
+body.retro-terminal .interests-card::after {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.9rem;
+  z-index: 4;
+  color: rgba(152,187,187,0.44);
+  content: "PROFILE INTERESTS // 5 ITEMS // PUBLIC";
+  font-family: var(--font-mono);
+  font-size: 0.50rem;
+  letter-spacing: 0.08em;
+}
+
+body.retro-terminal .ticker span {
+  color: #e7f0ed;
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 1px 1px 0 #000;
+  animation: none;
+}
+
+body.retro-terminal .ticker span:not(:last-child)::after {
+  color: var(--terminal-cyan);
+  content: " // ";
+  text-shadow: none;
+}
+
+body.retro-terminal .contact-card {
+  background:
+    linear-gradient(90deg, rgba(88,72,158,0.12), transparent 42%),
+    radial-gradient(ellipse at 91% 45%, rgba(49,164,173,0.11), transparent 39%),
+    linear-gradient(145deg, rgba(15,35,42,0.84), rgba(4,15,20,0.90));
+}
+
+body.retro-terminal .contact-links a {
+  position: relative;
+  padding-left: 1.25rem;
+  color: #cbdad8;
+  border-color: rgba(128,173,174,0.19);
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+body.retro-terminal .contact-links a::before {
+  position: absolute;
+  left: 0.05rem;
+  top: 50%;
+  width: 7px;
+  height: 7px;
+  content: "";
+  background: #65b94b;
+  border: 1px solid #b7ef9f;
+  border-radius: 1px;
+  box-shadow: 0 0 7px rgba(143,255,102,0.16);
+  transform: translateY(-50%);
+}
+
+body.retro-terminal .contact-links a:hover {
+  color: var(--terminal-green);
+}
+
+body.retro-terminal .site-footer {
+  position: relative;
+  border-top-style: solid;
+  border-top-color: rgba(127,171,172,0.18);
+  font-family: var(--font-mono);
+}
+
+body.retro-terminal .site-footer::after {
+  color: rgba(133,166,166,0.50);
+  content: "BEST VIEWED AT 1024×768 // LAST UPDATED 08.05.26 // NO PLUG-INS REQUIRED";
+  font-size: 0.55rem;
+  letter-spacing: 0.06em;
+}
+
+/* Photography window inherits the same retro-future language. */
+body.retro-terminal.retro-photo {
+  background: #050b0f;
+}
+
+body.retro-terminal.retro-photo .gallery-header {
+  background:
+    linear-gradient(180deg, rgba(188,214,215,0.17), rgba(47,77,82,0.12) 48%, rgba(4,17,22,0.90) 50%);
+  border-radius: 7px;
+  border-color: rgba(151,199,200,0.32);
+}
+
+body.retro-terminal.retro-photo .back-link {
+  border-radius: 3px;
+  font-family: Tahoma, Verdana, sans-serif;
+}
+
+body.retro-terminal.retro-photo .gallery-header p,
+body.retro-terminal.retro-photo .gallery-intro .eyebrow,
+body.retro-terminal.retro-photo .counter {
+  font-family: var(--font-mono);
+}
+
+body.retro-terminal.retro-photo .gallery-intro h1 {
+  font-family: Arial, Helvetica, sans-serif;
+  text-shadow: 1px 2px 0 #000;
+}
+
+body.retro-terminal.retro-photo .intro-timer {
+  background: linear-gradient(180deg, rgba(108,139,142,0.18), rgba(12,28,34,0.72) 48%, rgba(3,11,15,0.88) 50%);
+  border-radius: 5px;
+}
+
+body.retro-terminal.retro-photo .timer-bar {
+  border-radius: 1px;
+}
+
+body.retro-terminal.retro-photo .timer-bar i {
+  background: linear-gradient(90deg, var(--terminal-green), var(--terminal-cyan), var(--terminal-blue));
+}
+
+body.retro-terminal.retro-photo .trail-image {
+  padding: 5px 5px 18px;
+  background: #dce6e3;
+  border-radius: 3px;
+  border-color: #f7ffff;
+  box-shadow: 0 28px 66px rgba(0,0,0,0.52), 0 0 0 1px rgba(0,0,0,0.70);
+}
+
+body.retro-terminal.retro-photo .counter {
+  color: #94a8aa;
+  background: #081116;
+  border-radius: 3px;
+}
+
+body.retro-terminal.retro-photo #counter-current {
+  color: var(--terminal-green);
+}
+
+@media (max-width: 760px) {
+  body.retro-terminal .site-header {
+    border-radius: 8px;
+  }
+
+  body.retro-terminal .site-header::after {
+    display: none;
+  }
+
+  body.retro-terminal .card {
+    --radius: 12px;
+  }
+
+  body.retro-terminal .retro-window-bar {
+    border-radius: 5px 5px 2px 2px;
+  }
+
+  body.retro-terminal .portrait-card img {
+    inset: 29px 8px 8px;
+    width: calc(100% - 16px);
+    height: calc(100% - 37px);
+  }
+
+  body.retro-terminal .site-footer::after {
+    display: block;
+    margin-top: 0.8rem;
+    line-height: 1.6;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.retro-terminal::before,
+  body.retro-terminal::after {
+    animation: none !important;
+  }
+}
+
+
+/* Preserve the original absolute layout for media and interface overlays. */
+body.retro-terminal .portrait-halo,
+body.retro-terminal .portrait-card img,
+body.retro-terminal .portrait-caption,
+body.retro-terminal .hero-code,
+body.retro-terminal .round-arrow,
+body.retro-terminal .education-mark {
+  position: absolute;
+}
