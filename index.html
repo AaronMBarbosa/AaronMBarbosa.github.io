@@ -13,6 +13,7 @@
   <link id="retro-theme-css" rel="stylesheet" href="retro.css" disabled>
   <link id="portal-theme-css" rel="stylesheet" href="portal.css" disabled>
   <link rel="stylesheet" href="theme-toggle.css">
+  <link rel="stylesheet" href="visualizer-card.css">
   <script>
     (() => {
       let theme = "modern";
@@ -176,6 +177,20 @@
           <p>Street scenes, friends, and the imperfect moments worth keeping.</p>
         </div>
         <span class="round-arrow" aria-hidden="true">↗</span>
+      </a>
+
+      <a class="card visualizer-card reveal" href="https://github.com/AaronMBarbosa/Windows-Music-Visualizer" target="_blank" rel="noopener noreferrer" aria-labelledby="visualizer-title">
+        <picture class="visualizer-media">
+          <source media="(prefers-reduced-motion: reduce)" srcset="assets/visualizer-poster.jpg">
+          <img src="assets/visualizer-preview.gif" srcset="assets/visualizer-preview.gif 640w, assets/visualizer-showcase.gif 960w" sizes="(max-width: 760px) calc(100vw - 64px), (max-width: 1480px) 54vw, 800px" alt="Colorful music visualizations cycling through reflective spectrum bars, plasma, ferrofluid and flowing waveforms" width="960" height="540" loading="lazy" decoding="async">
+        </picture>
+        <div class="visualizer-copy">
+          <p class="eyebrow">Personal project · v1.0</p>
+          <h2 id="visualizer-title">Windows Music Visualizer</h2>
+          <p>A love letter to classic media-player visuals, built around real-time stereo audio and 35 evolving GPU-rendered scenes.</p>
+          <div class="tag-list" aria-label="Project technologies"><span>C#</span><span>Direct3D 11</span><span>WASAPI</span></div>
+          <span class="visualizer-link">View on GitHub <span aria-hidden="true">↗</span></span>
+        </div>
       </a>
 
       <section class="card interests-card reveal" aria-labelledby="interests-title">
